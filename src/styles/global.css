@@ -261,6 +261,7 @@ html.menu-open .burger span { background: #fff; }
 .marquee-group { display: flex; }
 .marquee-item { display: flex; align-items: center; gap: 44px; padding-right: 44px; font-family: var(--serif); font-weight: 600; font-size: clamp(1.5rem, 2.8vw, 2.4rem); white-space: nowrap; }
 .marquee-item svg { width: 22px; height: 22px; fill: var(--gold); }
+@keyframes callPulse { 0% { box-shadow: 0 0 0 0 rgba(221, 189, 114, 0.65); } 70%, 100% { box-shadow: 0 0 0 14px rgba(221, 189, 114, 0); } }
 @keyframes marquee { to { transform: translateX(-50%); } }
 
 /* ---------- Pests ---------- */
@@ -472,6 +473,57 @@ a.contact-item:hover { padding-left: 10px; }
 .swipe-hint { display: none; align-items: center; gap: 8px; margin-bottom: 14px; font-size: 0.82rem; font-weight: 600; color: var(--muted); }
 .business .swipe-hint { color: var(--muted-light); }
 
+/* ---------- Interactive touches ---------- */
+/* Reading progress */
+.scroll-progress { position: fixed; top: 0; left: 0; right: 0; z-index: 150; height: 3px; background: var(--gold); transform-origin: left; transform: scaleX(0); pointer-events: none; }
+
+/* Back to top with progress ring */
+.to-top-btn {
+  position: fixed; z-index: 95; right: 20px; bottom: 24px; width: 52px; height: 52px; border-radius: 50%;
+  display: grid; place-items: center; background: var(--navy); color: #fff; box-shadow: 0 10px 26px rgba(6, 15, 34, 0.3);
+}
+.to-top-btn .to-top-progress { position: absolute; inset: 0; width: 100%; height: 100%; transform: rotate(-90deg); }
+.to-top-track { fill: none; stroke: rgba(255, 255, 255, 0.15); stroke-width: 2.5; }
+.to-top-ring { fill: none; stroke: var(--gold-light); stroke-width: 2.5; stroke-linecap: round; }
+
+/* Press feedback for plain buttons */
+.btn:active { transform: scale(0.97); }
+
+/* Hero photo keeps slowly breathing after the intro */
+.hero-bg picture { display: block; width: 100%; height: 100%; animation: kenburns 22s ease-in-out 3s infinite alternate; }
+@keyframes kenburns { from { transform: scale(1) translate3d(0, 0, 0); } to { transform: scale(1.08) translate3d(-1.5%, -1%, 0); } }
+
+/* Carousel dots (shown on phones only) */
+.dots { display: none; justify-content: center; gap: 8px; margin-top: 18px; }
+.dots button { width: 8px; height: 8px; padding: 0; border: 0; border-radius: 8px; background: var(--line); cursor: pointer; transition: width 0.35s var(--ease), background 0.35s; }
+.dots button.is-active { width: 26px; background: var(--gold); }
+.dots-light button { background: rgba(255, 255, 255, 0.25); }
+.dots-light button.is-active { background: var(--gold-light); }
+
+/* Map focus */
+.map-reset {
+  position: absolute; z-index: 500; top: 14px; left: 14px; display: inline-flex; align-items: center; gap: 8px;
+  padding: 10px 16px; border: 0; border-radius: 100px; background: var(--navy); color: #fff; font-weight: 700; font-size: 0.86rem;
+  box-shadow: 0 8px 20px rgba(6, 15, 34, 0.25); cursor: pointer;
+}
+.town-cta { display: inline-flex; align-items: center; gap: 6px; font-size: 0.78rem; font-weight: 700; color: var(--gold-text); transition: color 0.4s; }
+.town.is-active .town-cta { color: var(--gold-light); }
+
+/* Pests photo: swipe / arrows between categories */
+.pests-visual { cursor: grab; touch-action: pan-y; user-select: none; }
+.pests-visual:active { cursor: grabbing; }
+.pests-visual img { pointer-events: none; -webkit-user-drag: none; }
+.pests-visual-nav { position: absolute; top: 18px; left: 18px; right: 18px; z-index: 2; display: flex; align-items: center; justify-content: space-between; }
+.pests-visual-nav button {
+  width: 40px; height: 40px; border-radius: 50%; border: 1px solid rgba(255, 255, 255, 0.35); background: rgba(6, 15, 34, 0.45);
+  color: #fff; display: grid; place-items: center; cursor: pointer; transition: background 0.3s;
+}
+.pests-visual-nav button:hover { background: rgba(6, 15, 34, 0.75); }
+.pests-visual-nav button:active { transform: scale(0.92); }
+.pests-visual-dots { display: flex; gap: 6px; }
+.pests-visual-dots span { width: 7px; height: 7px; border-radius: 7px; background: rgba(255, 255, 255, 0.45); transition: width 0.35s var(--ease), background 0.35s; }
+.pests-visual-dots span.is-active { width: 24px; background: var(--gold-light); }
+
 /* ---------- Responsive ---------- */
 @media (max-width: 1180px) {
   .nav { display: none; }
@@ -618,8 +670,22 @@ a.contact-item:hover { padding-left: 10px; }
   .callbar a:active { background: rgba(255, 255, 255, 0.12); }
   .callbar a.callbar-main { flex-direction: row; gap: 8px; background: var(--gold); font-size: 0.98rem; }
   html.menu-open .callbar, html.is-loading .callbar { transform: translateY(160%); }
+  /* Interactive touches on phones */
+  .dots { display: flex; }
+  .sector, .town { transition: opacity 0.4s, background 0.5s, border-color 0.5s; }
+  .sector:not(.is-current), .town:not(.is-current) { opacity: 0.55; }
+  .to-top-btn { right: 14px; bottom: calc(86px + env(safe-area-inset-bottom)); width: 46px; height: 46px; }
+  .map-reset { top: 10px; left: 10px; padding: 9px 14px; }
+  .callbar a.callbar-main { position: relative; }
+  .callbar a.callbar-main::after {
+    content: ""; position: absolute; inset: 0; border-radius: inherit; box-shadow: 0 0 0 0 rgba(221, 189, 114, 0.7);
+    animation: callPulse 2.8s ease-out 2s infinite;
+  }
+  .callbar a.callbar-main .icon { animation: ring 3s ease-in-out 2s infinite; }
+
 }
 @media (prefers-reduced-motion: reduce) {
   .marquee-track, .about-ring.r2, .scroll-cue-line::after, .cta-phone-icon, .map-pin-pulse { animation: none; }
   .map-pin-inner { animation: none; opacity: 1; }
+  .hero-bg picture, .callbar a.callbar-main::after, .callbar a.callbar-main .icon { animation: none; }
 }

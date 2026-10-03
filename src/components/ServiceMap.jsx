@@ -21,11 +21,14 @@ const pinIcon = (name, i) =>
   });
 
 // Real map (OpenStreetMap data) with the three service towns.
-export default function ServiceMap({ active, onSelect }) {
+export default function ServiceMap({ active, onSelect, focus, onFocus }) {
   const el = useRef(null);
   const map = useRef(null);
   const markers = useRef({});
   const circles = useRef({});
+  const boundsRef = useRef(null);
+  const focusRef = useRef(focus);
+  focusRef.current = focus;
 
   useEffect(() => {
     const m = L.map(el.current, {
@@ -41,6 +44,7 @@ export default function ServiceMap({ active, onSelect }) {
     L.tileLayer(TILES, { attribution: ATTRIBUTION, maxZoom: 18 }).addTo(m);
 
     const bounds = L.latLngBounds(towns.map((t) => [t.lat, t.lng]));
+    boundsRef.current = bounds;
     m.fitBounds(bounds, FIT);
 
     towns.forEach((t, i) => {
@@ -57,13 +61,14 @@ export default function ServiceMap({ active, onSelect }) {
         .addTo(m)
         .on('mouseover', () => onSelect?.(t.id))
         .on('mouseout', () => onSelect?.(null))
-        .on('click', () => m.flyTo([t.lat, t.lng], 12, { duration: 1 }));
+        .on('click', () => onFocus?.(t.id));
     });
 
     // Re-fit when the container size changes (responsive layout)
     const ro = new ResizeObserver(() => {
       m.invalidateSize();
-      m.fitBounds(bounds, FIT);
+      const t = towns.find((x) => x.id === focusRef.current);
+      if (t) m.setView([t.lat, t.lng], 11.5); else m.fitBounds(bounds, FIT);
     });
     ro.observe(el.current);
 
@@ -71,16 +76,25 @@ export default function ServiceMap({ active, onSelect }) {
       ro.disconnect();
       m.remove();
     };
-  }, [onSelect]);
+  }, [onSelect, onFocus]);
+
+  // Fly to the chosen town, or back out to show all three
+  useEffect(() => {
+    const m = map.current;
+    if (!m || !boundsRef.current) return;
+    const t = towns.find((x) => x.id === focus);
+    if (t) m.flyTo([t.lat, t.lng], 11.5, { duration: 1.2 });
+    else m.flyToBounds(boundsRef.current, { ...FIT, duration: 1.2 });
+  }, [focus]);
 
   // Highlight the town hovered in the list
   useEffect(() => {
     towns.forEach((t) => {
-      const isActive = active === t.id;
+      const isActive = active === t.id || focus === t.id;
       markers.current[t.id]?.getElement()?.classList.toggle('is-active', isActive);
       circles.current[t.id]?.setStyle({ fillOpacity: isActive ? 0.2 : 0.08, opacity: isActive ? 1 : 0.6 });
     });
-  }, [active]);
+  }, [active, focus]);
 
   return <div ref={el} className="service-map" aria-label="Карта на районите: Велинград, Сърница и Доспат" />;
 }

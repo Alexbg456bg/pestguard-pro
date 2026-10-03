@@ -9,6 +9,7 @@ export default function Pests() {
   const [tab, setTab] = useState('insects');
   const keys = Object.keys(pests);
   const cat = pests[tab];
+  const step = (dir) => setTab((t) => keys[(keys.indexOf(t) + dir + keys.length) % keys.length]);
 
   return (
     <section className="section pests" id="pests">
@@ -22,7 +23,19 @@ export default function Pests() {
 
         <div className="pests-layout">
           {/* Photo panel – changes with the selected category */}
-          <Reveal className="pests-visual" y={40}>
+          {/* Swipe (or drag) the photo left/right to switch category */}
+          <Reveal
+            className="pests-visual"
+            y={40}
+            drag="x"
+            dragConstraints={{ left: 0, right: 0 }}
+            dragElastic={0.22}
+            dragSnapToOrigin
+            onDragEnd={(_, info) => {
+              if (info.offset.x < -60 || info.velocity.x < -400) step(1);
+              else if (info.offset.x > 60 || info.velocity.x > 400) step(-1);
+            }}
+          >
             {keys.map((k) => (
               <img
                 key={k}
@@ -45,6 +58,13 @@ export default function Pests() {
               <h3>{cat.title}</h3>
               <p>{cat.text}</p>
             </motion.div>
+            <div className="pests-visual-nav">
+              <button type="button" aria-label="Предишна категория" onClick={() => step(-1)}><Icon name="arrowLeft" size={16} /></button>
+              <div className="pests-visual-dots">
+                {keys.map((k) => <span key={k} className={k === tab ? 'is-active' : ''} />)}
+              </div>
+              <button type="button" aria-label="Следваща категория" onClick={() => step(1)}><Icon name="arrow" size={16} /></button>
+            </div>
             <div className="pests-visual-cta">
               <span>Не сте сигурни какво имате?</span>
               <a href={company.viberHref} className="btn btn-gold btn-sm">
@@ -78,6 +98,7 @@ export default function Pests() {
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0, transition: { delay: i * 0.05, duration: 0.5, ease } }}
                   whileHover={{ y: -4, transition: { duration: 0.25 } }}
+                  whileTap={{ scale: 0.97 }}
                 >
                   <span className="pest-icon"><PestIcon name={icon} /></span>
                   <div>

@@ -15,6 +15,7 @@ import About from './components/About.jsx';
 import Faq from './components/Faq.jsx';
 import Contact from './components/Contact.jsx';
 import Footer from './components/Footer.jsx';
+import ScrollProgress from './components/ScrollProgress.jsx';
 
 const reducedMotion = () => window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
@@ -37,10 +38,20 @@ export default function App() {
     };
   }, []);
 
+  // Short vibration when tapping a call or Viber link (Android phones; ignored elsewhere)
+  useEffect(() => {
+    const onClick = (e) => {
+      if (e.target.closest?.('a[href^="tel:"], a[href^="viber:"]')) navigator.vibrate?.(15);
+    };
+    document.addEventListener('click', onClick);
+    return () => document.removeEventListener('click', onClick);
+  }, []);
+
   return (
     <MotionConfig reducedMotion="user">
       {!reducedMotion() && <Preloader onDone={() => setReady(true)} />}
       <div className="grain" aria-hidden="true" />
+      <ScrollProgress />
       <Header />
       <main>
         <Hero ready={ready} />

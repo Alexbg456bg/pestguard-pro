@@ -8,6 +8,8 @@ const paths = {
   doc: <><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" /><path d="M14 2v6h6M16 13H8M16 17H8M10 9H8" /></>,
   arrow: <path d="M5 12h14M12 5l7 7-7 7" />,
   arrowDown: <path d="M12 5v14M5 12l7 7 7-7" />,
+  arrowUp: <path d="M12 19V5M5 12l7-7 7 7" />,
+  arrowLeft: <path d="M19 12H5M12 19l-7-7 7-7" />,
   plus: <path d="M12 5v14M5 12h14" />,
   menu: <path d="M4 7h16M4 12h16M4 17h16" />,
   close: <path d="M18 6 6 18M6 6l12 12" />,
