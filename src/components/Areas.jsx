@@ -1,5 +1,5 @@
 import { lazy, Suspense, useState } from 'react';
-import Reveal, { SectionHead } from './Reveal.jsx';
+import Reveal, { RevealGroup, RevealItem, SectionHead } from './Reveal.jsx';
 import Icon from './Icon.jsx';
 import { company, towns } from '../data/content.js';
 
@@ -33,12 +33,11 @@ export default function Areas() {
 
           <div>
           <p className="swipe-hint">Плъзнете встрани <Icon name="arrow" size={16} /></p>
-          <div className="towns">
+          <RevealGroup className="towns" stagger={0.1}>
             {towns.map((t, i) => (
-              <Reveal
+              <RevealItem
                 key={t.id}
                 className={`town${active === t.id ? ' is-active' : ''}`}
-                delay={i * 0.1}
                 onMouseEnter={() => setActive(t.id)}
                 onMouseLeave={() => setActive(null)}
                 onClick={() => setActive(t.id)}
@@ -49,9 +48,9 @@ export default function Areas() {
                 </div>
                 <h3>{t.name}</h3>
                 <p>{t.text}</p>
-              </Reveal>
+              </RevealItem>
             ))}
-          </div>
+          </RevealGroup>
           </div>
         </div>
       </div>

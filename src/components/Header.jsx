@@ -10,15 +10,27 @@ export default function Header() {
   const [open, setOpen] = useState(false);
   const [active, setActive] = useState('');
 
-  // Solid after the hero; hides while scrolling down, shows again when scrolling up
+  // Solid after the hero; hides after scrolling down a bit, shows again after scrolling up a bit.
+  // Direction changes only count after 40px, so small smooth-scroll steps don't make it flicker.
   useEffect(() => {
-    let last = window.scrollY;
+    let anchor = window.scrollY;
+    let isHidden = false;
     const onScroll = () => {
       const y = window.scrollY;
       setScrolled(y > 40);
-      setHidden(y > 600 && y > last + 2);
-      if (y < last - 2) setHidden(false);
-      last = y;
+      if (y < 600) {
+        isHidden = false;
+        anchor = y;
+      } else if (!isHidden && y > anchor + 40) {
+        isHidden = true;
+        anchor = y;
+      } else if (isHidden && y < anchor - 40) {
+        isHidden = false;
+        anchor = y;
+      } else if ((isHidden && y > anchor) || (!isHidden && y < anchor)) {
+        anchor = y; // keep measuring from the furthest point in the current direction
+      }
+      setHidden(isHidden);
     };
     onScroll();
     window.addEventListener('scroll', onScroll, { passive: true });

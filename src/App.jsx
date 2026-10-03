@@ -24,7 +24,7 @@ export default function App() {
   // Smooth scrolling (skipped for visitors who prefer reduced motion)
   useEffect(() => {
     if (reducedMotion()) return;
-    const lenis = new Lenis({ duration: 1.15, anchors: { offset: -72 } });
+    const lenis = new Lenis({ lerp: 0.14, wheelMultiplier: 1, anchors: { offset: -72, duration: 1.1 } });
     let raf;
     const loop = (t) => {
       lenis.raf(t);

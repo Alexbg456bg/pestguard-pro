@@ -19,6 +19,39 @@ export default function Reveal({ as = 'div', delay = 0, y = 28, className, child
   );
 }
 
+// A group whose items fade up one after another as soon as the group scrolls into view.
+// Used for rows of cards (also horizontally swipeable ones, whose off-screen items would
+// otherwise wait invisible until each one is swiped in).
+const itemVariants = {
+  hidden: { opacity: 0, y: 28 },
+  show: { opacity: 1, y: 0, transition: { duration: 0.8, ease } },
+};
+
+export function RevealGroup({ as = 'div', className, stagger = 0.08, children, ...rest }) {
+  const Tag = motion[as];
+  return (
+    <Tag
+      className={className}
+      initial="hidden"
+      whileInView="show"
+      viewport={{ once: true, margin: '0px 0px -60px 0px' }}
+      transition={{ staggerChildren: stagger }}
+      {...rest}
+    >
+      {children}
+    </Tag>
+  );
+}
+
+export function RevealItem({ as = 'div', className, children, ...rest }) {
+  const Tag = motion[as];
+  return (
+    <Tag className={className} variants={itemVariants} {...rest}>
+      {children}
+    </Tag>
+  );
+}
+
 // Headline whose lines slide up from behind a mask. `lines` is an array of strings/nodes.
 // The trigger sits on the visible heading, not on the masked lines (those start clipped,
 // so they would never be reported as "in view").
