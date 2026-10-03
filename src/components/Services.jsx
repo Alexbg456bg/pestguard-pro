@@ -11,7 +11,7 @@ function ServiceCard({ s, i, total, progress }) {
   const imgScale = useTransform(progress, [start, Math.min(start + 1 / total, 1)], [1.15, 1]);
 
   return (
-    <div className="stack-item" style={{ top: `calc(110px + ${i * 22}px)` }} id={s.id}>
+    <div className="stack-item" style={{ top: `calc(110px + ${i * 22}px)`, '--i': i }} id={s.id}>
       <motion.article className="svc-card" style={{ scale }}>
         <div className="svc-media">
           <picture>
