@@ -6,7 +6,7 @@ import { company, steps } from '../data/content.js';
 
 function Step({ s, i, progress, total }) {
   const at = (i + 0.5) / total;
-  const color = useTransform(progress, [at - 0.12, at], ['#C9C2B2', '#B8903F']);
+  const color = useTransform(progress, [at - 0.12, at], ['#646D7E', '#B8903F']);
   const bg = useTransform(progress, [at - 0.12, at], ['#F6F3EC', '#0B1B3A']);
   return (
     <div className="tl-step">

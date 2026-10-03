@@ -8,10 +8,15 @@ const TEXT =
   'Ние сме местна фирма от Родопите. Идваме бързо, оглеждаме внимателно и казваме честно какво е нужно – за да се върнете към спокойния си дом и работа.';
 const GOLD = new Set(['местна', 'бързо,', 'честно', 'спокойния']);
 
+// Words start in a muted grey (still readable: 4.9:1 contrast) and darken to navy as you scroll.
+// Gold words stay gold – any lighter gold would be too faint to read.
+const DIM = '#646D7E';
+
 function Word({ word, range, progress }) {
-  const opacity = useTransform(progress, range, [0.28, 1]);
+  const gold = GOLD.has(word);
+  const color = useTransform(progress, range, gold ? ['#8F6C27', '#8F6C27'] : [DIM, '#0B1B3A']);
   return (
-    <motion.span style={{ opacity }} className={GOLD.has(word) ? 'gold' : undefined}>
+    <motion.span style={{ color }} className={gold ? 'gold' : undefined}>
       {word}{' '}
     </motion.span>
   );
@@ -25,7 +30,8 @@ export default function Statement() {
   return (
     <section className="statement" id="statement">
       <div className="container">
-        <Reveal className="eyebrow"><span className="eyebrow-no">01</span><span>За PestGuard Pro</span></Reveal>
+        <h2 className="sr-only">За PestGuard Pro</h2>
+        <Reveal className="eyebrow" aria-hidden="true"><span className="eyebrow-no">01</span><span>За PestGuard Pro</span></Reveal>
         <p className="statement-text" ref={ref}>
           {words.map((w, i) => (
             <Word key={i} word={w} progress={scrollYProgress} range={[i / words.length, (i + 1) / words.length]} />

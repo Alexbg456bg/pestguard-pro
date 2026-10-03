@@ -99,7 +99,7 @@ export default function Header() {
         </nav>
 
         <div className="header-actions">
-          <a href={company.phoneHref} className="header-phone">
+          <a href={company.phoneHref} className="header-phone" aria-label={`Обадете се: ${company.phone}`}>
             <span className="header-phone-icon"><Icon name="phone" size={16} /></span>
             <span className="header-phone-text">
               <small>Обадете се</small>

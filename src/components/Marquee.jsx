@@ -10,7 +10,8 @@ export default function Marquee() {
     </span>
   ));
   return (
-    <div className="marquee" data-loop aria-label={items.join(', ')}>
+    <div className="marquee" data-loop>
+      <span className="sr-only">{items.join(', ')}</span>
       <div className="marquee-track" aria-hidden="true">
         <div className="marquee-group">{row}</div>
         <div className="marquee-group">{row}</div>
