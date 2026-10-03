@@ -1,0 +1,5 @@
+node_modules
+dist
+.env
+# Original full-size photos (16 MB) – the optimized versions are in public/img
+photos-src/
