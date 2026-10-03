@@ -37,6 +37,7 @@ export default function Business() {
           </Reveal>
         </div>
 
+        <p className="swipe-hint">Плъзнете встрани <Icon name="arrow" size={16} /></p>
         <div className="sector-grid">
           {sectors.map((s, i) => (
             <Reveal key={s.title} className="sector" delay={i * 0.06}>

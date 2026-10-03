@@ -50,10 +50,12 @@ export default function Footer() {
         </div>
       </footer>
 
-      <div className="callbar">
-        <a href={company.phoneHref}><Icon name="phone" size={18} /> Обади се</a>
-        <a href={company.viberHref}><Icon name="chat" size={18} /> Viber</a>
-      </div>
+      {/* Phone-only action bar */}
+      <nav className="callbar" aria-label="Бърза връзка">
+        <a href={company.phoneHref} className="callbar-main"><Icon name="phone" size={18} /> Обади се</a>
+        <a href={company.viberHref}><Icon name="chat" size={18} /><span>Viber</span></a>
+        <a href="#contact"><Icon name="send" size={18} /><span>Запитване</span></a>
+      </nav>
     </>
   );
 }

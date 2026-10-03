@@ -20,16 +20,20 @@ export default function Hero({ ready }) {
   return (
     <section className="hero" id="top" ref={ref}>
       <motion.div className="hero-bg" style={{ y: bgY }}>
-        <motion.img
-          src="img/farm.webp"
-          srcSet="img/farm-md.webp 1200w, img/farm.webp 2400w"
-          sizes="100vw"
-          alt=""
-          fetchPriority="high"
-          initial={{ scale: 1.25 }}
-          animate={ready ? { scale: 1.06 } : { scale: 1.25 }}
-          transition={{ duration: 2.6, ease }}
-        />
+        <picture>
+          {/* Portrait photo on phones, wide photo everywhere else */}
+          <source media="(max-width: 640px)" srcSet="img/m-farm.webp" />
+          <motion.img
+            src="img/farm.webp"
+            srcSet="img/farm-md.webp 1200w, img/farm.webp 2400w"
+            sizes="100vw"
+            alt=""
+            fetchPriority="high"
+            initial={{ scale: 1.25 }}
+            animate={ready ? { scale: 1.06 } : { scale: 1.25 }}
+            transition={{ duration: 2.6, ease }}
+          />
+        </picture>
       </motion.div>
       <div className="hero-overlay" />
 

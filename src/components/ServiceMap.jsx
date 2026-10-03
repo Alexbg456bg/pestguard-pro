@@ -5,6 +5,8 @@ import { towns } from '../data/content.js';
 
 const TILES = 'https://tile.openstreetmap.org/{z}/{x}/{y}.png';
 const ATTRIBUTION = '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>';
+// Extra room on the right and top so the town labels next to the pins are never cut off
+const FIT = { paddingTopLeft: [40, 60], paddingBottomRight: [120, 40] };
 
 const pinIcon = (name, i) =>
   L.divIcon({
@@ -39,7 +41,7 @@ export default function ServiceMap({ active, onSelect }) {
     L.tileLayer(TILES, { attribution: ATTRIBUTION, maxZoom: 18 }).addTo(m);
 
     const bounds = L.latLngBounds(towns.map((t) => [t.lat, t.lng]));
-    m.fitBounds(bounds.pad(0.18));
+    m.fitBounds(bounds, FIT);
 
     towns.forEach((t, i) => {
       circles.current[t.id] = L.circle([t.lat, t.lng], {
@@ -61,7 +63,7 @@ export default function ServiceMap({ active, onSelect }) {
     // Re-fit when the container size changes (responsive layout)
     const ro = new ResizeObserver(() => {
       m.invalidateSize();
-      m.fitBounds(bounds.pad(0.18));
+      m.fitBounds(bounds, FIT);
     });
     ro.observe(el.current);
 

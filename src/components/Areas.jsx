@@ -31,6 +31,8 @@ export default function Areas() {
             </Suspense>
           </Reveal>
 
+          <div>
+          <p className="swipe-hint">Плъзнете встрани <Icon name="arrow" size={16} /></p>
           <div className="towns">
             {towns.map((t, i) => (
               <Reveal
@@ -39,6 +41,7 @@ export default function Areas() {
                 delay={i * 0.1}
                 onMouseEnter={() => setActive(t.id)}
                 onMouseLeave={() => setActive(null)}
+                onClick={() => setActive(t.id)}
               >
                 <div className="town-head">
                   <span className="town-no">0{i + 1}</span>
@@ -48,6 +51,7 @@ export default function Areas() {
                 <p>{t.text}</p>
               </Reveal>
             ))}
+          </div>
           </div>
         </div>
       </div>

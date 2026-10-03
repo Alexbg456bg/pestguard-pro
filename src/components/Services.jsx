@@ -14,7 +14,10 @@ function ServiceCard({ s, i, total, progress }) {
     <div className="stack-item" style={{ top: `calc(110px + ${i * 22}px)` }} id={s.id}>
       <motion.article className="svc-card" style={{ scale }}>
         <div className="svc-media">
-          <motion.img src={s.image} alt={s.alt} loading="lazy" style={{ scale: imgScale }} />
+          <picture>
+            {s.imageMobile && <source media="(max-width: 640px)" srcSet={s.imageMobile} />}
+            <motion.img src={s.image} alt={s.alt} loading="lazy" style={{ scale: imgScale }} />
+          </picture>
           <span className="svc-no">{s.no}</span>
         </div>
         <div className="svc-body">
