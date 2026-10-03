@@ -43,9 +43,18 @@ export default function Header() {
       }
       setHidden(isHidden);
     };
+    // Run at most once per frame
+    let frame = 0;
+    const onScrollThrottled = () => {
+      if (frame) return;
+      frame = requestAnimationFrame(() => { frame = 0; onScroll(); });
+    };
     onScroll();
-    window.addEventListener('scroll', onScroll, { passive: true });
-    return () => window.removeEventListener('scroll', onScroll);
+    window.addEventListener('scroll', onScrollThrottled, { passive: true });
+    return () => {
+      window.removeEventListener('scroll', onScrollThrottled);
+      cancelAnimationFrame(frame);
+    };
   }, []);
 
   useEffect(() => {

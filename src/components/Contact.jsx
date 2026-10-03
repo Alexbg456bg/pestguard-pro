@@ -48,10 +48,10 @@ export default function Contact() {
   }
 
   return (
-    <section className="contact" id="contact">
+    <section className="contact" id="contact" data-loop>
       <picture className="contact-bg">
         <source media="(max-width: 640px)" srcSet="img/m-industrial.webp" />
-        <img src="img/warehouse.webp" alt="" loading="lazy" />
+        <img src="img/warehouse-md.webp" alt="" loading="lazy" decoding="async" />
       </picture>
       <div className="contact-overlay" />
 

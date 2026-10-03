@@ -18,7 +18,7 @@ export default function Hero({ ready }) {
   });
 
   return (
-    <section className="hero" id="top" ref={ref}>
+    <section className="hero" id="top" ref={ref} data-loop>
       <motion.div className="hero-bg" style={{ y: bgY }}>
         <picture>
           {/* Portrait photo on phones, wide photo everywhere else */}

@@ -18,7 +18,7 @@ export default function Areas() {
   const focusedTown = towns.find((t) => t.id === focus);
 
   return (
-    <section className="section areas" id="areas">
+    <section className="section areas" id="areas" data-loop>
       <div className="container">
         <div className="areas-top">
           <SectionHead

@@ -15,7 +15,7 @@ export default function Business() {
   return (
     <section className="business" id="business" ref={ref}>
       <motion.div className="business-bg">
-        <motion.img src="img/office.webp" alt="" loading="lazy" style={{ y: bgY }} />
+        <motion.img src="img/office-md.webp" alt="" loading="lazy" decoding="async" style={{ y: bgY }} />
         <div className="business-overlay" />
       </motion.div>
 

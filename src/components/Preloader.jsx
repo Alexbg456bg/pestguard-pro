@@ -10,12 +10,11 @@ export default function Preloader({ onDone }) {
 
   useEffect(() => {
     document.documentElement.classList.add('is-loading');
-    const minTime = new Promise((r) => setTimeout(r, 1500));
-    const loaded = document.readyState === 'complete'
-      ? Promise.resolve()
-      : new Promise((r) => window.addEventListener('load', r, { once: true }));
-    // Never block longer than 3.5s, even on a slow connection
-    const cap = new Promise((r) => setTimeout(r, 3500));
+    const minTime = new Promise((r) => setTimeout(r, 900));
+    // Wait for the fonts (so the headline doesn't jump), not for every image on the page
+    const loaded = document.fonts?.ready ?? Promise.resolve();
+    // Never block longer than 2s, even on a slow connection
+    const cap = new Promise((r) => setTimeout(r, 2000));
     Promise.race([Promise.all([minTime, loaded]), cap]).then(() => {
       setShow(false);
       document.documentElement.classList.remove('is-loading');

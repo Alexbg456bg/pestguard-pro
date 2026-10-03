@@ -1,6 +1,5 @@
 import { useEffect, useState } from 'react';
 import { MotionConfig } from 'motion/react';
-import Lenis from 'lenis';
 import Preloader from './components/Preloader.jsx';
 import Header from './components/Header.jsx';
 import Hero from './components/Hero.jsx';
@@ -19,24 +18,14 @@ import ScrollProgress from './components/ScrollProgress.jsx';
 
 const reducedMotion = () => window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-export default function App() {
-  const [ready, setReady] = useState(reducedMotion());
+// The intro curtain is shown once per visit; going back to the page skips it
+const introSeen = () => {
+  try { return sessionStorage.getItem('pg-intro') === '1'; } catch { return false; }
+};
+const showIntro = !reducedMotion() && !introSeen();
 
-  // Smooth scrolling (skipped for visitors who prefer reduced motion)
-  useEffect(() => {
-    if (reducedMotion()) return;
-    const lenis = new Lenis({ lerp: 0.14, wheelMultiplier: 1, anchors: { offset: -72, duration: 1.1 } });
-    let raf;
-    const loop = (t) => {
-      lenis.raf(t);
-      raf = requestAnimationFrame(loop);
-    };
-    raf = requestAnimationFrame(loop);
-    return () => {
-      cancelAnimationFrame(raf);
-      lenis.destroy();
-    };
-  }, []);
+export default function App() {
+  const [ready, setReady] = useState(!showIntro);
 
   // Short vibration when tapping a call or Viber link (Android phones; ignored elsewhere)
   useEffect(() => {
@@ -47,10 +36,26 @@ export default function App() {
     return () => document.removeEventListener('click', onClick);
   }, []);
 
+  // Pause looping CSS animations (marquee, slow photo zoom, pulsing rings) while their section is off screen
+  useEffect(() => {
+    const io = new IntersectionObserver(
+      (entries) => entries.forEach((e) => e.target.classList.toggle('is-offscreen', !e.isIntersecting)),
+      { rootMargin: '100px 0px' },
+    );
+    document.querySelectorAll('[data-loop]').forEach((el) => io.observe(el));
+    return () => io.disconnect();
+  }, []);
+
   return (
     <MotionConfig reducedMotion="user">
-      {!reducedMotion() && <Preloader onDone={() => setReady(true)} />}
-      <div className="grain" aria-hidden="true" />
+      {showIntro && (
+        <Preloader
+          onDone={() => {
+            setReady(true);
+            try { sessionStorage.setItem('pg-intro', '1'); } catch { /* private mode */ }
+          }}
+        />
+      )}
       <ScrollProgress />
       <Header />
       <main>

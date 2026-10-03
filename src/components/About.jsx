@@ -18,7 +18,7 @@ export default function About() {
   const logoRotate = useTransform(scrollYProgress, [0, 1], [-6, 6]);
 
   return (
-    <section className="section about" id="about" ref={ref}>
+    <section className="section about" id="about" ref={ref} data-loop>
       <div className="container about-grid">
         <div className="about-emblem">
           <div className="about-ring" />
