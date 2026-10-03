@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://pestguard-pro-sigma.vercel.app/sitemap.xml

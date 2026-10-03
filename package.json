@@ -8,7 +8,8 @@
     "build": "vite build",
     "preview": "vite preview",
     "images": "node scripts/optimize-images.mjs",
-    "logo": "node scripts/make-logo.mjs"
+    "logo": "node scripts/make-logo.mjs",
+    "og": "node scripts/make-og.mjs"
   },
   "dependencies": {
     "@fontsource-variable/onest": "^5.3.1",

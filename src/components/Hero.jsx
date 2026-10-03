@@ -22,6 +22,8 @@ export default function Hero({ ready }) {
       <motion.div className="hero-bg" style={{ y: bgY }}>
         <motion.img
           src="img/farm.webp"
+          srcSet="img/farm-md.webp 1200w, img/farm.webp 2400w"
+          sizes="100vw"
           alt=""
           fetchPriority="high"
           initial={{ scale: 1.25 }}

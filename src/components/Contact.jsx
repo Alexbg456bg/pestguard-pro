@@ -128,6 +128,9 @@ export default function Contact() {
                 <button className="btn btn-gold btn-block" type="submit" disabled={status === 'sending'}>
                   {status === 'sending' ? 'Изпращане…' : <>Изпрати запитване <Icon name="send" size={18} /></>}
                 </button>
+                <p className="form-note">
+                  Данните ви се използват само за да се свържем с вас по това запитване и не се предоставят на трети лица.
+                </p>
                 {status === 'error' && (
                   <p className="form-error">Възникна грешка. Моля, обадете се на {company.phone}.</p>
                 )}
