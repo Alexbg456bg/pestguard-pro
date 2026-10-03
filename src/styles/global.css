@@ -471,6 +471,7 @@ a.contact-item:hover { padding-left: 10px; }
 .footer-bottom { border-top: 1px solid var(--line-dark); padding: 24px 0; font-size: 0.8rem; color: #6F7B93; }
 .footer-bottom-inner { display: flex; justify-content: space-between; gap: 16px; flex-wrap: wrap; }
 .callbar { display: none; }
+.section-tabs { display: none; }
 .swipe-hint { display: none; align-items: center; gap: 8px; margin-bottom: 14px; font-size: 0.82rem; font-weight: 600; color: var(--muted); }
 .business .swipe-hint { color: var(--muted-light); }
 
@@ -686,6 +687,74 @@ a.contact-item:hover { padding-left: 10px; }
     animation: callPulse 2.8s ease-out 2s infinite;
   }
   .callbar a.callbar-main .icon { animation: ring 3s ease-in-out 2s infinite; }
+
+  /* ---- Structure: section tabs under the header ---- */
+  .header.is-hidden { transform: translateY(-100%); }
+  .section-tabs {
+    display: flex; position: absolute; left: 0; right: 0; top: 100%; gap: 6px; padding: 8px 16px;
+    overflow-x: auto; scrollbar-width: none; background: rgba(250, 248, 243, 0.97); border-bottom: 1px solid var(--line);
+    box-shadow: 0 6px 16px rgba(11, 27, 58, 0.06);
+    opacity: 0; transform: translateY(-6px); pointer-events: none; transition: opacity 0.35s, transform 0.35s var(--ease);
+  }
+  .section-tabs::-webkit-scrollbar { display: none; }
+  .section-tabs.is-shown { opacity: 1; transform: none; pointer-events: auto; }
+  .section-tabs a { flex: none; padding: 8px 14px; border-radius: 100px; font-size: 0.84rem; font-weight: 700; color: var(--muted); background: var(--cream); white-space: nowrap; transition: background 0.3s, color 0.3s; }
+  .section-tabs a.is-active { background: var(--navy); color: #fff; }
+
+  /* ---- Structure: calmer, consistent rhythm ---- */
+  .section { padding: 64px 0; }
+  .statement { padding: 72px 0 64px; }
+  .business, .contact { padding: 72px 0; }
+  .section-head { margin-bottom: 32px; }
+  .section-head p { margin-top: 14px; font-size: 1rem; }
+  .eyebrow { margin-bottom: 16px; font-size: 0.74rem; }
+  .statement-text { font-size: 1.45rem; line-height: 1.35; }
+  .values-grid { margin-top: 40px; }
+  .marquee { padding: 18px 0; }
+  .marquee-item { font-size: 1.3rem; gap: 28px; padding-right: 28px; }
+  .marquee-item svg { width: 16px; height: 16px; }
+
+  /* Pests: compact 2-column tiles */
+  .pests-layout { gap: 24px; }
+  .pest-grid { grid-template-columns: 1fr 1fr; gap: 10px; }
+  .pest-card { flex-direction: column; gap: 10px; padding: 14px; }
+  .pest-icon { width: 44px; height: 44px; border-radius: 12px; }
+  .pest-icon svg { width: 24px; height: 24px; }
+  .pest-card h4 { font-size: 0.98rem; margin: 0 0 2px; line-height: 1.25; }
+  .pest-card p { font-size: 0.82rem; line-height: 1.45; }
+
+  /* Process: tighter steps */
+  .tl-step { padding-top: 18px; padding-bottom: 22px; }
+  .tl-body h3 { font-size: 1.35rem; margin-bottom: 6px; }
+  .tl-body p { font-size: 0.95rem; }
+  .process-side .section-head { margin-bottom: 20px; }
+
+  /* About: smaller emblem, facts in two columns */
+  .about-grid { gap: 24px; }
+  .about-emblem { max-width: 190px; }
+  .about blockquote { font-size: 1.3rem; margin-bottom: 24px; }
+  .signature { margin-bottom: 28px; }
+  .facts { grid-template-columns: 1fr 1fr; column-gap: 14px; }
+  .fact { flex-direction: column; gap: 8px; padding: 16px 0; }
+
+  /* Contact: big phone first, then three quick tiles */
+  .cta { margin-bottom: 40px; }
+  .cta-title { font-size: 2.15rem; }
+  .cta-phone { margin-top: 24px; font-size: 1.7rem; }
+  .contact-grid { gap: 28px; }
+  .contact-lead { margin-bottom: 18px; font-size: 0.98rem; }
+  .contact-list { grid-template-columns: repeat(3, 1fr); gap: 8px; border-top: 0; }
+  .contact-item {
+    flex-direction: column; justify-content: center; text-align: center; gap: 8px; padding: 16px 6px;
+    border: 1px solid var(--line-dark); border-radius: 14px; background: rgba(255, 255, 255, 0.04);
+  }
+  a.contact-item:hover { padding-left: 6px; }
+  .contact-item b { display: none; }
+  .contact-item small { font-size: 0.68rem; letter-spacing: 0.05em; line-height: 1.35; }
+
+  /* Footer: the page navigation column is already in the tabs/menu */
+  .footer-grid > div:nth-child(3) { display: none; }
+  .footer-grid { padding-top: 48px; }
 
 }
 @media (prefers-reduced-motion: reduce) {

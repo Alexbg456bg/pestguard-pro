@@ -1,14 +1,24 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { AnimatePresence, motion } from 'motion/react';
 import Logo from './Logo.jsx';
 import Icon from './Icon.jsx';
 import { company, nav } from '../data/content.js';
+
+// Section tabs shown under the header on phones once the visitor is past the hero
+const tabs = [
+  ...nav.slice(0, -1),
+  { href: '#about', label: 'За нас' },
+  nav[nav.length - 1],
+  { href: '#contact', label: 'Контакт' },
+];
 
 export default function Header() {
   const [scrolled, setScrolled] = useState(false);
   const [hidden, setHidden] = useState(false);
   const [open, setOpen] = useState(false);
   const [active, setActive] = useState('');
+  const [pastHero, setPastHero] = useState(false);
+  const tabsRef = useRef(null);
 
   // Solid after the hero; hides after scrolling down a bit, shows again after scrolling up a bit.
   // Direction changes only count after 40px, so small smooth-scroll steps don't make it flicker.
@@ -18,6 +28,7 @@ export default function Header() {
     const onScroll = () => {
       const y = window.scrollY;
       setScrolled(y > 40);
+      setPastHero(y > window.innerHeight * 0.85);
       if (y < 600) {
         isHidden = false;
         anchor = y;
@@ -42,12 +53,20 @@ export default function Header() {
       (entries) => entries.forEach((e) => e.isIntersecting && setActive('#' + e.target.id)),
       { rootMargin: '-45% 0px -50% 0px' },
     );
-    nav.forEach((n) => {
+    tabs.forEach((n) => {
       const el = document.querySelector(n.href);
       if (el) io.observe(el);
     });
     return () => io.disconnect();
   }, []);
+
+  // Keep the active tab scrolled into view
+  useEffect(() => {
+    const bar = tabsRef.current;
+    const a = bar?.querySelector('.is-active');
+    if (!bar || !a) return;
+    bar.scrollTo({ left: a.offsetLeft - (bar.clientWidth - a.offsetWidth) / 2, behavior: 'smooth' });
+  }, [active]);
 
   useEffect(() => {
     document.documentElement.classList.toggle('menu-open', open);
@@ -88,6 +107,18 @@ export default function Header() {
           </button>
         </div>
       </div>
+
+      <nav
+        ref={tabsRef}
+        className={`section-tabs${pastHero && !open ? ' is-shown' : ''}`}
+        aria-label='Секции на страницата'
+      >
+        {tabs.map((t) => (
+          <a key={t.href} href={t.href} className={active === t.href ? 'is-active' : ''}>
+            {t.label}
+          </a>
+        ))}
+      </nav>
 
       <AnimatePresence>
         {open && (
