@@ -2,10 +2,10 @@ import { useRef } from 'react';
 import { motion, useScroll, useTransform } from 'motion/react';
 import { SectionHead } from './Reveal.jsx';
 import Icon from './Icon.jsx';
-import { services } from '../data/content.js';
+import { rich, useLang } from '../i18n/index.jsx';
 
 // Cards stick to the top and stack; earlier cards shrink slightly as the next one arrives.
-function ServiceCard({ s, i, total, progress }) {
+function ServiceCard({ s, i, total, progress, requestLabel }) {
   const start = i / total;
   const scale = useTransform(progress, [start, 1], [1, 1 - (total - 1 - i) * 0.045]);
   const imgScale = useTransform(progress, [start, Math.min(start + 1 / total, 1)], [1.15, 1]);
@@ -30,7 +30,7 @@ function ServiceCard({ s, i, total, progress }) {
             ))}
           </ul>
           <a href="#contact" className="link-arrow">
-            Запитване за {s.title.toLowerCase()} <span className="link-arrow-circle"><Icon name="arrow" size={16} /></span>
+            {requestLabel} {s.title.toLowerCase()} <span className="link-arrow-circle"><Icon name="arrow" size={16} /></span>
           </a>
         </div>
       </motion.article>
@@ -39,6 +39,7 @@ function ServiceCard({ s, i, total, progress }) {
 }
 
 export default function Services() {
+  const { t } = useLang();
   const ref = useRef(null);
   const { scrollYProgress } = useScroll({ target: ref, offset: ['start start', 'end end'] });
 
@@ -47,13 +48,13 @@ export default function Services() {
       <div className="container">
         <SectionHead
           no="02"
-          eyebrow="Услуги"
-          lines={['Три направления.', <em key="e">Едно решение.</em>]}
-          text="Подбираме метода и препарата според вредителя, обекта и хората, които го използват."
+          eyebrow={t.servicesHead.eyebrow}
+          lines={t.servicesHead.lines.map(rich)}
+          text={t.servicesHead.text}
         />
         <div className="stack" ref={ref}>
-          {services.map((s, i) => (
-            <ServiceCard key={s.id} s={s} i={i} total={services.length} progress={scrollYProgress} />
+          {t.services.map((s, i) => (
+            <ServiceCard key={s.id} s={s} i={i} total={t.services.length} progress={scrollYProgress} requestLabel={t.servicesHead.request} />
           ))}
         </div>
       </div>

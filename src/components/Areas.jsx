@@ -3,12 +3,15 @@ import { AnimatePresence, motion } from 'motion/react';
 import Reveal, { RevealGroup, RevealItem, SectionHead } from './Reveal.jsx';
 import Icon from './Icon.jsx';
 import useCarousel, { Dots } from './useCarousel.jsx';
-import { company, towns } from '../data/content.js';
+import { company } from '../data/content.js';
+import { rich, useLang } from '../i18n/index.jsx';
 
 // Loaded separately so the map library doesn't slow down the first page load
 const ServiceMap = lazy(() => import('./ServiceMap.jsx'));
 
 export default function Areas() {
+  const { t } = useLang();
+  const towns = t.towns;
   const [active, setActive] = useState(null); // hovered town (highlight only)
   const [focus, setFocus] = useState(null);   // tapped town (map flies to it)
   const rowRef = useRef(null);
@@ -23,19 +26,19 @@ export default function Areas() {
         <div className="areas-top">
           <SectionHead
             no="06"
-            eyebrow="Райони"
-            lines={['Работим в сърцето', <em key="e">на Родопите</em>]}
+            eyebrow={t.areasHead.eyebrow}
+            lines={t.areasHead.lines.map(rich)}
           />
           <Reveal as="p" className="areas-note" delay={0.15}>
-            Посещаваме обекти в трите общини и населените места около тях. Не виждате вашето?{' '}
-            <a href={company.phoneHref}>Обадете се</a> и ще уточним.
+            {t.areasHead.note}{' '}
+            <a href={company.phoneHref}>{t.areasHead.noteCall}</a> {t.areasHead.noteEnd}
           </Reveal>
         </div>
 
         <div className="areas-grid">
           <Reveal className="map" y={40}>
             <Suspense fallback={<div className="service-map" />}>
-              <ServiceMap active={active} onSelect={setActive} focus={focus} onFocus={toggleFocus} />
+              <ServiceMap towns={towns} label={t.areasHead.mapLabel} active={active} onSelect={setActive} focus={focus} onFocus={toggleFocus} />
             </Suspense>
             <AnimatePresence>
               {focusedTown && (
@@ -48,34 +51,34 @@ export default function Areas() {
                   exit={{ opacity: 0, y: -10 }}
                   whileTap={{ scale: 0.94 }}
                 >
-                  <Icon name="arrowLeft" size={16} /> Всички райони
+                  <Icon name="arrowLeft" size={16} /> {t.areasHead.allAreas}
                 </motion.button>
               )}
             </AnimatePresence>
           </Reveal>
 
           <div>
-            <p className="swipe-hint">Докоснете град, за да го видите на картата</p>
+            <p className="swipe-hint">{t.areasHead.tapHint}</p>
             <RevealGroup className="towns" stagger={0.1} ref={rowRef}>
-              {towns.map((t, i) => (
+              {towns.map((town, i) => (
                 <RevealItem
-                  key={t.id}
-                  className={`town${active === t.id || focus === t.id ? ' is-active' : ''}${i === current ? ' is-current' : ''}`}
-                  onMouseEnter={() => setActive(t.id)}
+                  key={town.id}
+                  className={`town${active === town.id || focus === town.id ? ' is-active' : ''}${i === current ? ' is-current' : ''}`}
+                  onMouseEnter={() => setActive(town.id)}
                   onMouseLeave={() => setActive(null)}
-                  onClick={() => toggleFocus(t.id)}
+                  onClick={() => toggleFocus(town.id)}
                   whileTap={{ scale: 0.97 }}
                   role="button"
                   tabIndex={0}
-                  aria-pressed={focus === t.id}
-                  onKeyDown={(e) => (e.key === 'Enter' || e.key === ' ') && (e.preventDefault(), toggleFocus(t.id))}
+                  aria-pressed={focus === town.id}
+                  onKeyDown={(e) => (e.key === 'Enter' || e.key === ' ') && (e.preventDefault(), toggleFocus(town.id))}
                 >
                   <div className="town-head">
                     <span className="town-no">0{i + 1}</span>
-                    <span className="town-cta">{focus === t.id ? 'На картата' : 'Покажи'} <Icon name="pin" size={18} /></span>
+                    <span className="town-cta">{focus === town.id ? t.areasHead.onMap : t.areasHead.show} <Icon name="pin" size={18} /></span>
                   </div>
-                  <h3>{t.name}</h3>
-                  <p>{t.text}</p>
+                  <h3>{town.name}</h3>
+                  <p>{town.text}</p>
                 </RevealItem>
               ))}
             </RevealGroup>

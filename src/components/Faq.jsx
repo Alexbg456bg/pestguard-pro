@@ -2,9 +2,11 @@ import { useState } from 'react';
 import { motion } from 'motion/react';
 import Reveal, { SectionHead } from './Reveal.jsx';
 import Icon from './Icon.jsx';
-import { company, faq } from '../data/content.js';
+import { company } from '../data/content.js';
+import { rich, useLang } from '../i18n/index.jsx';
 
 export default function Faq() {
+  const { t } = useLang();
   const [open, setOpen] = useState(0);
 
   return (
@@ -13,20 +15,20 @@ export default function Faq() {
         <div className="faq-side">
           <SectionHead
             no="08"
-            eyebrow="Въпроси"
-            lines={['Често задавани', <em key="e">въпроси</em>]}
-            text="Не намирате отговор? Консултацията по телефона е безплатна."
+            eyebrow={t.faqHead.eyebrow}
+            lines={t.faqHead.lines.map(rich)}
+            text={t.faqHead.text}
           />
           <Reveal delay={0.2}>
-            <a href={company.phoneHref} className="btn btn-dark"><Icon name="phone" size={18} /> {company.phone}</a>
+            <a href={company.phoneHref} className="btn btn-dark"><Icon name="phone" size={18} /> {t.phone}</a>
           </Reveal>
         </div>
 
         <div className="faq-list">
-          {faq.map(([q, a], i) => {
+          {t.faq.map(([q, a], i) => {
             const isOpen = open === i;
             return (
-              <Reveal key={q} className={`faq-item${isOpen ? ' is-open' : ''}`} delay={i * 0.05}>
+              <Reveal key={i} className={`faq-item${isOpen ? ' is-open' : ''}`} delay={i * 0.05}>
                 <button className="faq-q" aria-expanded={isOpen} onClick={() => setOpen(isOpen ? -1 : i)}>
                   <span className="faq-no">{String(i + 1).padStart(2, '0')}</span>
                   <span className="faq-text">{q}</span>

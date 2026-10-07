@@ -1,4 +1,5 @@
 import { useCallback, useEffect, useState } from 'react';
+import { useLang } from '../i18n/index.jsx';
 
 // Tracks which card of a horizontally scrolling row is currently in front,
 // and lets dots scroll to a given card. Only matters where the row actually scrolls (phones).
@@ -44,15 +45,16 @@ export default function useCarousel(ref) {
 }
 
 export function Dots({ count, index, onSelect, light }) {
+  const { t } = useLang();
   return (
-    <div className={`dots${light ? ' dots-light' : ''}`} role="tablist" aria-label="Карти">
+    <div className={`dots${light ? ' dots-light' : ''}`} role="tablist" aria-label={t.misc.cards}>
       {Array.from({ length: count }, (_, i) => (
         <button
           key={i}
           type="button"
           role="tab"
           aria-selected={i === index}
-          aria-label={`Карта ${i + 1}`}
+          aria-label={`${t.misc.card} ${i + 1}`}
           className={i === index ? 'is-active' : ''}
           onClick={() => onSelect(i)}
         />

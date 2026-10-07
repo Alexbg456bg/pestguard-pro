@@ -2,9 +2,11 @@ import { useRef } from 'react';
 import { motion, useScroll, useTransform } from 'motion/react';
 import Icon from './Icon.jsx';
 import { MaskLines, ease } from './Reveal.jsx';
-import { company, services } from '../data/content.js';
+import { company } from '../data/content.js';
+import { rich, useLang } from '../i18n/index.jsx';
 
 export default function Hero({ ready }) {
+  const { t } = useLang();
   const ref = useRef(null);
   const { scrollYProgress } = useScroll({ target: ref, offset: ['start start', 'end start'] });
   const bgY = useTransform(scrollYProgress, [0, 1], ['0%', '22%']);
@@ -40,31 +42,26 @@ export default function Hero({ ready }) {
       <motion.div className="container hero-content" style={{ y: contentY, opacity: fade }}>
         <motion.div className="hero-tag" {...show(0.2)}>
           <span className="hero-tag-line" />
-          ДДД услуги · {company.towns.join(' · ')}
+          {t.hero.tag} · {t.townNames.join(' · ')}
         </motion.div>
 
         <MaskLines
           as="h1"
           animate={ready}
           delay={0.25}
-          lines={[
-            'Спокойствие',
-            <>без <em>вредители</em></>,
-            'за дома и бизнеса',
-          ]}
+          lines={t.hero.lines.map(rich)}
         />
 
         <div className="hero-bottom">
           <motion.p className="hero-lead" {...show(0.7)}>
-            Професионална дезинфекция, дезинсекция и дератизация в Родопите. Оглед на място,
-            безопасни методи и документ след всяко третиране.
+            {t.hero.lead}
           </motion.p>
           <motion.div className="hero-btns" {...show(0.85)}>
             <a href={company.phoneHref} className="btn btn-gold btn-lg">
-              <Icon name="phone" size={18} /> {company.phone}
+              <Icon name="phone" size={18} /> {t.phone}
             </a>
             <a href="#contact" className="btn btn-line-light btn-lg">
-              Безплатна консултация <Icon name="arrow" size={18} />
+              {t.hero.consult} <Icon name="arrow" size={18} />
             </a>
           </motion.div>
         </div>
@@ -73,24 +70,24 @@ export default function Hero({ ready }) {
       <motion.aside className="hero-card" {...show(1.05)}>
         <img src="logo-sm.png" alt="" width="56" height="56" />
         <div>
-          <small>Управител</small>
-          <b>{company.owner}</b>
-          <a href={company.viberHref}><Icon name="chat" size={14} /> Пишете във Viber</a>
+          <small>{t.hero.manager}</small>
+          <b>{t.owner}</b>
+          <a href={company.viberHref}><Icon name="chat" size={14} /> {t.hero.viber}</a>
         </div>
       </motion.aside>
 
       <motion.div className="hero-foot" {...show(1.2)}>
         <div className="container hero-foot-inner">
-          {services.map((s) => (
+          {t.services.map((s) => (
             <a key={s.id} href={`#${s.id}`} className="hero-foot-item">
               <span>{s.no}</span>
               <b>{s.title}</b>
               <Icon name="arrow" size={16} />
             </a>
           ))}
-          <a href="#statement" className="scroll-cue" aria-label="Надолу">
+          <a href="#statement" className="scroll-cue" aria-label={t.hero.down}>
             <span className="scroll-cue-line" />
-            Скрол
+            {t.hero.scroll}
           </a>
         </div>
       </motion.div>

@@ -1,7 +1,6 @@
 import { useEffect, useRef } from 'react';
 import L from 'leaflet';
 import 'leaflet/dist/leaflet.css';
-import { towns } from '../data/content.js';
 
 const TILES = 'https://tile.openstreetmap.org/{z}/{x}/{y}.png';
 const ATTRIBUTION = '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>';
@@ -21,7 +20,7 @@ const pinIcon = (name, i) =>
   });
 
 // Real map (OpenStreetMap data) with the three service towns.
-export default function ServiceMap({ active, onSelect, focus, onFocus }) {
+export default function ServiceMap({ towns, label, active, onSelect, focus, onFocus }) {
   const el = useRef(null);
   const map = useRef(null);
   const markers = useRef({});
@@ -29,6 +28,8 @@ export default function ServiceMap({ active, onSelect, focus, onFocus }) {
   const boundsRef = useRef(null);
   const focusRef = useRef(focus);
   focusRef.current = focus;
+  const townsRef = useRef(towns);
+  townsRef.current = towns;
 
   useEffect(() => {
     const m = L.map(el.current, {
@@ -43,6 +44,7 @@ export default function ServiceMap({ active, onSelect, focus, onFocus }) {
     L.control.zoom({ position: 'bottomright' }).addTo(m);
     L.tileLayer(TILES, { attribution: ATTRIBUTION, maxZoom: 18 }).addTo(m);
 
+    const towns = townsRef.current;
     const bounds = L.latLngBounds(towns.map((t) => [t.lat, t.lng]));
     boundsRef.current = bounds;
     m.fitBounds(bounds, FIT);
@@ -67,7 +69,7 @@ export default function ServiceMap({ active, onSelect, focus, onFocus }) {
     // Re-fit when the container size changes (responsive layout)
     const ro = new ResizeObserver(() => {
       m.invalidateSize();
-      const t = towns.find((x) => x.id === focusRef.current);
+      const t = townsRef.current.find((x) => x.id === focusRef.current);
       if (t) m.setView([t.lat, t.lng], 11.5); else m.fitBounds(bounds, FIT);
     });
     ro.observe(el.current);
@@ -78,23 +80,29 @@ export default function ServiceMap({ active, onSelect, focus, onFocus }) {
     };
   }, [onSelect, onFocus]);
 
+  // Town names on the pins follow the site language
+  const names = towns.map((t) => t.name).join('|');
+  useEffect(() => {
+    townsRef.current.forEach((t, i) => markers.current[t.id]?.setIcon(pinIcon(t.name, i)));
+  }, [names]);
+
   // Fly to the chosen town, or back out to show all three
   useEffect(() => {
     const m = map.current;
     if (!m || !boundsRef.current) return;
-    const t = towns.find((x) => x.id === focus);
+    const t = townsRef.current.find((x) => x.id === focus);
     if (t) m.flyTo([t.lat, t.lng], 11.5, { duration: 1.2 });
     else m.flyToBounds(boundsRef.current, { ...FIT, duration: 1.2 });
   }, [focus]);
 
   // Highlight the town hovered in the list
   useEffect(() => {
-    towns.forEach((t) => {
+    townsRef.current.forEach((t) => {
       const isActive = active === t.id || focus === t.id;
       markers.current[t.id]?.getElement()?.classList.toggle('is-active', isActive);
       circles.current[t.id]?.setStyle({ fillOpacity: isActive ? 0.2 : 0.08, opacity: isActive ? 1 : 0.6 });
     });
   }, [active, focus]);
 
-  return <div ref={el} className="service-map" aria-label="Карта на районите: Велинград, Сърница и Доспат" />;
+  return <div ref={el} className="service-map" aria-label={label} />;
 }

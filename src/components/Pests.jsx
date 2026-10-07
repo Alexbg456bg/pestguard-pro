@@ -3,22 +3,25 @@ import { motion } from 'motion/react';
 import Reveal, { SectionHead, ease } from './Reveal.jsx';
 import Icon from './Icon.jsx';
 import PestIcon from './PestIcon.jsx';
-import { company, pests } from '../data/content.js';
+import { company } from '../data/content.js';
+import { rich, useLang } from '../i18n/index.jsx';
 
 export default function Pests() {
+  const { t } = useLang();
+  const pests = t.pests;
   const [tab, setTab] = useState('insects');
   const keys = Object.keys(pests);
   const cat = pests[tab];
-  const step = (dir) => setTab((t) => keys[(keys.indexOf(t) + dir + keys.length) % keys.length]);
+  const step = (dir) => setTab((cur) => keys[(keys.indexOf(cur) + dir + keys.length) % keys.length]);
 
   return (
     <section className="section pests" id="pests">
       <div className="container">
         <SectionHead
           no="03"
-          eyebrow="Срещу какво работим"
-          lines={['Вредители, които', <em key="e">решаваме</em>]}
-          text="Изберете категория, за да видите срещу какво работим."
+          eyebrow={t.pestsHead.eyebrow}
+          lines={t.pestsHead.lines.map(rich)}
+          text={t.pestsHead.text}
         />
 
         <div className="pests-layout">
@@ -54,21 +57,21 @@ export default function Pests() {
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5, ease }}
             >
-              <span className="pests-count">{cat.items.length} вида</span>
+              <span className="pests-count">{cat.items.length} {t.pestsHead.kinds}</span>
               <h3>{cat.title}</h3>
               <p>{cat.text}</p>
             </motion.div>
             <div className="pests-visual-nav">
-              <button type="button" aria-label="Предишна категория" onClick={() => step(-1)}><Icon name="arrowLeft" size={16} /></button>
+              <button type="button" aria-label={t.pestsHead.prev} onClick={() => step(-1)}><Icon name="arrowLeft" size={16} /></button>
               <div className="pests-visual-dots">
                 {keys.map((k) => <span key={k} className={k === tab ? 'is-active' : ''} />)}
               </div>
-              <button type="button" aria-label="Следваща категория" onClick={() => step(1)}><Icon name="arrow" size={16} /></button>
+              <button type="button" aria-label={t.pestsHead.next} onClick={() => step(1)}><Icon name="arrow" size={16} /></button>
             </div>
             <div className="pests-visual-cta">
-              <span>Не сте сигурни какво имате?</span>
+              <span>{t.pestsHead.unsure}</span>
               <a href={company.viberHref} className="btn btn-gold btn-sm">
-                <Icon name="chat" size={16} /> Снимка във Viber
+                <Icon name="chat" size={16} /> {t.pestsHead.viber}
               </a>
             </div>
           </Reveal>

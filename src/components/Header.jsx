@@ -2,17 +2,37 @@ import { useEffect, useRef, useState } from 'react';
 import { AnimatePresence, motion } from 'motion/react';
 import Logo from './Logo.jsx';
 import Icon from './Icon.jsx';
-import { company, nav } from '../data/content.js';
+import { company } from '../data/content.js';
+import { useLang } from '../i18n/index.jsx';
+import bg from '../i18n/bg.js';
 
-// Section tabs shown under the header on phones once the visitor is past the hero
-const tabs = [
-  ...nav.slice(0, -1),
-  { href: '#about', label: 'За нас' },
-  nav[nav.length - 1],
-  { href: '#contact', label: 'Контакт' },
-];
+// Section ids are the same in every language
+const SECTION_IDS = bg.tabs.map((t) => t.href);
+
+// BG | EN switch. On phones only the other language is shown, as one round button.
+function LangSwitch({ className = '' }) {
+  const { lang, setLang, t } = useLang();
+  return (
+    <div className={`lang-switch ${className}`} role="group" aria-label="Език / Language">
+      {['bg', 'en'].map((code) => (
+        <button
+          key={code}
+          type="button"
+          className={lang === code ? 'is-active' : ''}
+          aria-pressed={lang === code}
+          aria-label={lang === code ? undefined : t.langSwitch.aria}
+          onClick={() => setLang(code)}
+        >
+          {lang === code && <motion.span layoutId={`lang-bg-${className}`} className="lang-switch-bg" transition={{ type: 'spring', stiffness: 420, damping: 34 }} />}
+          <span className="lang-switch-label">{code.toUpperCase()}</span>
+        </button>
+      ))}
+    </div>
+  );
+}
 
 export default function Header() {
+  const { t } = useLang();
   const [scrolled, setScrolled] = useState(false);
   const [hidden, setHidden] = useState(false);
   const [open, setOpen] = useState(false);
@@ -62,8 +82,8 @@ export default function Header() {
       (entries) => entries.forEach((e) => e.isIntersecting && setActive('#' + e.target.id)),
       { rootMargin: '-45% 0px -50% 0px' },
     );
-    tabs.forEach((n) => {
-      const el = document.querySelector(n.href);
+    SECTION_IDS.forEach((href) => {
+      const el = document.querySelector(href);
       if (el) io.observe(el);
     });
     return () => io.disconnect();
@@ -75,7 +95,7 @@ export default function Header() {
     const a = bar?.querySelector('.is-active');
     if (!bar || !a) return;
     bar.scrollTo({ left: a.offsetLeft - (bar.clientWidth - a.offsetWidth) / 2, behavior: 'smooth' });
-  }, [active]);
+  }, [active, t]);
 
   useEffect(() => {
     document.documentElement.classList.toggle('menu-open', open);
@@ -86,12 +106,12 @@ export default function Header() {
   return (
     <header className={`header${solid ? ' is-solid' : ''}${hidden && !open ? ' is-hidden' : ''}`}>
       <div className="container header-inner">
-        <a href="#top" aria-label="PestGuard Pro – начало" onClick={() => setOpen(false)}>
+        <a href="#top" aria-label={t.header.home} onClick={() => setOpen(false)}>
           <Logo light={!solid || open} />
         </a>
 
-        <nav className="nav" aria-label="Основно меню">
-          {nav.map((n) => (
+        <nav className="nav" aria-label={t.header.mainMenu}>
+          {t.nav.map((n) => (
             <a key={n.href} href={n.href} className={active === n.href ? 'is-active' : ''}>
               {n.label}
             </a>
@@ -99,16 +119,17 @@ export default function Header() {
         </nav>
 
         <div className="header-actions">
-          <a href={company.phoneHref} className="header-phone" aria-label={`Обадете се: ${company.phone}`}>
+          <LangSwitch className="in-header" />
+          <a href={company.phoneHref} className="header-phone" aria-label={`${t.header.call}: ${t.phone}`}>
             <span className="header-phone-icon"><Icon name="phone" size={16} /></span>
             <span className="header-phone-text">
-              <small>Обадете се</small>
-              <b>{company.phone}</b>
+              <small>{t.header.call}</small>
+              <b>{t.phone}</b>
             </span>
           </a>
           <button
             className={`burger${open ? ' is-open' : ''}`}
-            aria-label={open ? 'Затвори менюто' : 'Отвори менюто'}
+            aria-label={open ? t.header.closeMenu : t.header.openMenu}
             aria-expanded={open}
             onClick={() => setOpen((o) => !o)}
           >
@@ -120,11 +141,11 @@ export default function Header() {
       <nav
         ref={tabsRef}
         className={`section-tabs${pastHero && !open ? ' is-shown' : ''}`}
-        aria-label='Секции на страницата'
+        aria-label={t.header.sections}
       >
-        {tabs.map((t) => (
-          <a key={t.href} href={t.href} className={active === t.href ? 'is-active' : ''}>
-            {t.label}
+        {t.tabs.map((tab) => (
+          <a key={tab.href} href={tab.href} className={active === tab.href ? 'is-active' : ''}>
+            {tab.label}
           </a>
         ))}
       </nav>
@@ -139,7 +160,7 @@ export default function Header() {
             transition={{ duration: 0.6, ease: [0.76, 0, 0.24, 1] }}
           >
             <nav className="container">
-              {nav.map((n, i) => (
+              {t.nav.map((n, i) => (
                 <motion.a
                   key={n.href}
                   href={n.href}
@@ -158,8 +179,9 @@ export default function Header() {
                 animate={{ opacity: 1 }}
                 transition={{ delay: 0.6 }}
               >
-                <a href={company.phoneHref} className="btn btn-gold"><Icon name="phone" size={18} /> {company.phone}</a>
+                <a href={company.phoneHref} className="btn btn-gold"><Icon name="phone" size={18} /> {t.phone}</a>
                 <a href={company.viberHref} className="btn btn-line-light"><Icon name="chat" size={18} /> Viber</a>
+                <LangSwitch className="in-menu" />
               </motion.div>
             </nav>
           </motion.div>
