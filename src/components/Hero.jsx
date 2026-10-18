@@ -42,7 +42,7 @@ export default function Hero({ ready }) {
       <motion.div className="container hero-content" style={{ y: contentY, opacity: fade }}>
         <motion.div className="hero-tag" {...show(0.2)}>
           <span className="hero-tag-line" />
-          {t.hero.tag} · {t.townNames.join(' · ')}
+          {t.hero.tag}<span className="hero-tag-towns"> · {t.townNames.join(' · ')}</span>
         </motion.div>
 
         <MaskLines

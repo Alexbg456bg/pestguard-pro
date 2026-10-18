@@ -1,6 +1,6 @@
 import { useRef } from 'react';
 import { motion, useScroll, useTransform } from 'motion/react';
-import Reveal from './Reveal.jsx';
+import Reveal, { RevealGroup, RevealItem } from './Reveal.jsx';
 import Icon from './Icon.jsx';
 import { useLang } from '../i18n/index.jsx';
 
@@ -34,18 +34,18 @@ export default function Statement() {
           ))}
         </p>
 
-        <div className="values-grid">
+        <RevealGroup className="values-grid">
           {t.values.map((v, i) => (
-            <Reveal key={i} className="value" delay={i * 0.08}>
+            <RevealItem key={i} className="value">
               <div className="value-top">
                 <span className="value-no">0{i + 1}</span>
                 <Icon name={v.icon} size={24} />
               </div>
               <h3>{v.title}</h3>
               <p>{v.text}</p>
-            </Reveal>
+            </RevealItem>
           ))}
-        </div>
+        </RevealGroup>
       </div>
     </section>
   );

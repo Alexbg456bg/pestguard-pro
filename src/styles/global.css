@@ -834,6 +834,26 @@ html.lang-switching main, html.lang-switching .footer { opacity: 0.25; }
   .trust-item b { font-size: 0.88rem; line-height: 1.25; }
   .trust-item small { display: none; }
 
+  /* ---- Phone structure pass ---- */
+  /* No floating back-to-top on phones: it covered content; the section tabs and action bar cover navigation */
+  .to-top-btn { display: none; }
+  /* Calmer hero: no towns in the tag, no service chips (they are in the tabs); room above the action bar */
+  .hero-tag-towns { display: none; }
+  .hero-foot { display: none; }
+  .hero-content { padding-bottom: 104px; }
+  /* Values as a swipeable row of cards (was a tall 2x2 grid) */
+  .values-grid {
+    display: flex; gap: 12px; overflow-x: auto; scroll-snap-type: x mandatory; scrollbar-width: none;
+    margin: 36px -16px 0; padding: 0 16px 6px; scroll-padding-inline: 16px; border-top: 0;
+  }
+  .values-grid::-webkit-scrollbar { display: none; }
+  .value, .value + .value, .value:nth-child(even), .value:nth-child(n + 3) {
+    flex: 0 0 74%; scroll-snap-align: start; padding: 20px 18px; border: 1px solid var(--line); border-radius: var(--radius-lg); background: #fff;
+  }
+  .statement-text { font-size: 1.32rem; }
+  /* Pests photo panel a little shorter */
+  .pests-visual { min-height: 430px; }
+
 }
 @media (prefers-reduced-motion: reduce) {
   .marquee-track, .about-ring.r2, .scroll-cue-line::after, .cta-phone-icon, .map-pin-pulse { animation: none; }
