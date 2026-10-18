@@ -22,7 +22,9 @@ const paths = {
   box: <><path d="M21 8 12 3 3 8v8l9 5 9-5z" /><path d="m3 8 9 5 9-5M12 13v8" /></>,
   school: <><path d="m22 10-10-5L2 10l10 5z" /><path d="M6 12v5c3 2 9 2 12 0v-5" /></>,
   building: <><rect x="4" y="2" width="16" height="20" rx="1" /><path d="M9 22v-4h6v4M8 6h.01M12 6h.01M16 6h.01M8 10h.01M12 10h.01M16 10h.01M8 14h.01M12 14h.01M16 14h.01" /></>,
-  award: <><circle cx="12" cy="8" r="6" /><path d="M15.5 13 17 22l-5-3-5 3 1.5-9" /></>,
+  municipality: <><path d="M3 21h18M4 10h16M12 3l8.5 5h-17z" /><path d="M6 10v8M10 10v8M14 10v8M18 10v8M4 18h16" /></>,
+  kinder: <><rect x="3" y="13" width="8" height="8" rx="1.5" /><rect x="13" y="13" width="8" height="8" rx="1.5" /><rect x="8" y="3" width="8" height="8" rx="1.5" /><path d="M7 15.5v3M15.5 17h3M12 5.5l1 2h-2z" /></>,
+  award:<><circle cx="12" cy="8" r="6" /><path d="M15.5 13 17 22l-5-3-5 3 1.5-9" /></>,
   send: <path d="m22 2-7 20-4-9-9-4zM22 2 11 13" />,
 };
 

@@ -2,22 +2,22 @@
 
 export default {
   meta: {
-    title: 'PestGuard Pro | Pest Control – Velingrad, Sarnitsa, Dospat',
-    description: 'PestGuard Pro – disinfection, insect control and rodent control for homes, restaurants, hotels, farms and warehouses in Velingrad, Sarnitsa and Dospat, Bulgaria. Tel. +359 895 493 333.',
+    title: 'PestGuard Pro | Pest Control – Velingrad, Sarnitsa, Dospat, Gotse Delchev',
+    description: 'PestGuard Pro – disinfection, insect and rodent control using the IPM method for homes, businesses, municipalities, schools and kindergartens in Velingrad, Sarnitsa, Dospat and Gotse Delchev, Bulgaria. Tel. +359 895 493 333.',
   },
   langSwitch: { label: 'BG', aria: 'Превключи на български' },
 
   phone: '+359 895 493 333',
   owner: 'Musa Sinap',
   legalName: 'PestGuard Pro Ltd.',
-  townNames: ['Velingrad', 'Sarnitsa', 'Dospat'],
+  townNames: ['Velingrad', 'Sarnitsa', 'Dospat', 'Gotse Delchev'],
   tagline: 'Disinfection · Insects · Rodents',
 
   nav: [
     { href: '#services', label: 'Services' },
     { href: '#pests', label: 'Pests' },
     { href: '#business', label: 'For business' },
-    { href: '#process', label: 'How we work' },
+    { href: '#process', label: 'IPM method' },
     { href: '#areas', label: 'Areas' },
     { href: '#faq', label: 'FAQ' },
   ],
@@ -25,7 +25,7 @@ export default {
     { href: '#services', label: 'Services' },
     { href: '#pests', label: 'Pests' },
     { href: '#business', label: 'For business' },
-    { href: '#process', label: 'How we work' },
+    { href: '#process', label: 'IPM method' },
     { href: '#areas', label: 'Areas' },
     { href: '#about', label: 'About' },
     { href: '#faq', label: 'FAQ' },
@@ -44,7 +44,7 @@ export default {
   hero: {
     tag: 'Pest control',
     lines: ['Peace of mind', '*pest-free*', 'at home and at work'],
-    lead: 'Professional disinfection, insect and rodent control in the Rhodope Mountains. On-site inspection, safe methods and a service certificate after every treatment.',
+    lead: 'Professional disinfection, insect and rodent control using the IPM method. We work with homes and businesses, as well as municipalities, schools and kindergartens.',
     consult: 'Free consultation',
     manager: 'Owner',
     viber: 'Message us on Viber',
@@ -59,10 +59,21 @@ export default {
 
   values: [
     { icon: 'search', title: 'On-site inspection', text: 'Before every treatment we identify the pest and the source of the problem.' },
-    { icon: 'shield', title: 'Safe methods', text: 'Products approved in Bulgaria and clear instructions for your home and pets.' },
+    { icon: 'shield', title: 'IPM method', text: 'Integrated Pest Management – minimum products, safe for people and pets.' },
     { icon: 'doc', title: 'Service certificate', text: 'After the treatment you receive a document for the work done.' },
     { icon: 'refresh', title: 'Follow-up', text: 'If needed, we come back until the problem is fully solved.' },
   ],
+
+  trust: {
+    eyebrow: 'Public sector',
+    title: 'We work with *municipalities, schools* and *kindergartens*',
+    text: 'Treatment on a pre-agreed schedule – on weekends and during holidays, using the IPM method and with a document for every visit.',
+    items: [
+      { icon: 'municipality', title: 'Municipalities', text: 'Municipal and administrative buildings' },
+      { icon: 'school', title: 'Schools', text: 'Classrooms, kitchens and canteens' },
+      { icon: 'kinder', title: 'Kindergartens', text: 'Safe methods suited to children' },
+    ],
+  },
 
   servicesHead: {
     eyebrow: 'Services',
@@ -170,40 +181,42 @@ export default {
     { icon: 'food', title: 'Restaurants and shops', text: 'Documents for inspections by the authorities.' },
     { icon: 'farm', title: 'Farms', text: 'Barns, pens, storage and feed warehouses.' },
     { icon: 'box', title: 'Warehouses and production', text: 'Scheduled rodent and insect monitoring.' },
-    { icon: 'school', title: 'Schools and kindergartens', text: 'Treatment on weekends and during holidays.' },
+    { icon: 'municipality', title: 'Municipalities and public buildings', text: 'Schools, kindergartens and administrative buildings.' },
     { icon: 'building', title: 'Offices and apartment blocks', text: 'Entrances, basements and common areas.' },
   ],
   marqueeExtra: 'Homes and villas',
 
   processHead: {
-    eyebrow: 'How we work',
-    lines: ['From the first call', '*to the result*'],
-    text: 'A clear process without surprises. You know what happens at every step.',
+    eyebrow: 'IPM method',
+    lines: ['Integrated', '*Pest Management*'],
+    text: 'IPM is an internationally recognised approach: we first find the cause, then treat exactly where it is needed – with minimum products and maximum safety.',
     cta: 'Start with a call',
   },
   steps: [
-    { title: 'Call', text: 'Describe the problem by phone or on Viber – a photo helps too.' },
-    { title: 'Inspection', text: 'We come on site, identify the pest and offer a solution and a price.' },
-    { title: 'Treatment', text: 'We carry out the treatment and tell you when it is safe to go back in.' },
-    { title: 'Follow-up', text: 'You receive a certificate and, if needed, we do a follow-up check.' },
+    { title: 'Inspection', text: 'We inspect the property and find signs, nests and entry points of the pests.' },
+    { title: 'Identification', text: 'We identify the pest and how severe the infestation is, to choose the right method.' },
+    { title: 'Prevention', text: 'We recommend measures – sealing gaps, hygiene, storage – so the pests don’t come back.' },
+    { title: 'Targeted treatment', text: 'We apply products only where needed and in the minimum necessary amount.' },
+    { title: 'Monitoring and follow-up', text: 'We check the result, document the visit and repeat if needed.' },
   ],
 
   areasHead: {
     eyebrow: 'Service areas',
-    lines: ['Working in the heart', '*of the Rhodopes*'],
-    note: 'We serve the three municipalities and the villages around them. Your place is not listed?',
+    lines: ['Working in the Rhodopes', '*and Gotse Delchev*'],
+    note: 'We serve the four municipalities and the villages around them. Your place is not listed?',
     noteCall: 'Call us',
     noteEnd: 'and we will arrange it.',
     allAreas: 'All areas',
     tapHint: 'Tap a town to see it on the map',
     show: 'Show',
     onMap: 'On the map',
-    mapLabel: 'Map of service areas: Velingrad, Sarnitsa and Dospat',
+    mapLabel: 'Map of service areas: Velingrad, Sarnitsa, Dospat and Gotse Delchev',
   },
   towns: [
     { id: 'velingrad', name: 'Velingrad', text: 'The town and the villages in the municipality – Draginovo, Sveta Petka, Krastava and more.', lat: 42.0276, lng: 23.9917 },
     { id: 'sarnitsa', name: 'Sarnitsa', text: 'Sarnitsa and the nearby villages.', lat: 41.7372, lng: 24.0255 },
     { id: 'dospat', name: 'Dospat', text: 'Dospat, the reservoir area, Barutin, Zmeitsa, Lyubcha and more.', lat: 41.6448, lng: 24.1594 },
+    { id: 'gotsedelchev', name: 'Gotse Delchev', text: 'Gotse Delchev and the villages in the municipality.', lat: 41.5675, lng: 23.7339 },
   ],
 
   about: {
@@ -225,6 +238,7 @@ export default {
     text: 'Can’t find your answer? Phone consultation is free.',
   },
   faq: [
+    ['What is the IPM method?', 'IPM (Integrated Pest Management) is an approach that does not rely on chemicals alone. We first find the cause and the entry points, recommend prevention measures and treat only where needed. The result lasts longer and the use of products is kept to a minimum.'],
     ['Is it safe for children and pets?', 'We use products approved for use in Bulgaria. Before the treatment we tell you when children and pets need to leave and how long until they can come back.'],
     ['Do I need to leave home during the treatment?', 'It depends on the service and the product. Some methods don’t require it, others need you out for a few hours. You will get clear instructions.'],
     ['How many visits are needed?', 'In most cases one treatment is enough. For bed bugs, heavy cockroach infestations and rodents we usually make a follow-up visit.'],
@@ -257,7 +271,7 @@ export default {
   },
 
   footer: {
-    about: 'Disinfection, insect control and rodent control for homes and businesses in Velingrad, Sarnitsa and Dospat.',
+    about: 'Disinfection, insect and rodent control using the IPM method for homes, businesses and public buildings in Velingrad, Sarnitsa, Dospat and Gotse Delchev.',
     toTop: 'Back to top',
     services: 'Services',
     navigation: 'Navigation',

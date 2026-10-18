@@ -17,7 +17,7 @@ const overlay = Buffer.from(`
   <rect x="80" y="330" width="60" height="3" fill="#DDBD72"/>
   <text x="80" y="300" font-family="Arial, sans-serif" font-size="74" font-weight="800" fill="#ffffff">PestGuard Pro</text>
   <text x="80" y="390" font-family="Arial, sans-serif" font-size="34" font-weight="700" fill="#DDBD72">Дезинфекция · Дезинсекция · Дератизация</text>
-  <text x="80" y="445" font-family="Arial, sans-serif" font-size="30" fill="#E6EAF2">Велинград · Сърница · Доспат</text>
+  <text x="80" y="445" font-family="Arial, sans-serif" font-size="30" fill="#E6EAF2">Велинград · Сърница · Доспат · Гоце Делчев</text>
   <text x="80" y="540" font-family="Arial, sans-serif" font-size="40" font-weight="800" fill="#ffffff">0895 493 333</text>
 </svg>`);
 

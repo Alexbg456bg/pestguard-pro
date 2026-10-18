@@ -3,6 +3,7 @@ import { MotionConfig } from 'motion/react';
 import Preloader from './components/Preloader.jsx';
 import Header from './components/Header.jsx';
 import Hero from './components/Hero.jsx';
+import Trust from './components/Trust.jsx';
 import Statement from './components/Statement.jsx';
 import Services from './components/Services.jsx';
 import Marquee from './components/Marquee.jsx';
@@ -60,6 +61,7 @@ export default function App() {
       <Header />
       <main>
         <Hero ready={ready} />
+        <Trust />
         <Statement />
         <Services />
         <Marquee />
