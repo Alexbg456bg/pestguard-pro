@@ -381,6 +381,7 @@ html.menu-open .burger span { background: #fff; }
 .map-pin-pulse { position: absolute; left: 50%; bottom: -8px; width: 24px; height: 24px; margin-left: -12px; border-radius: 50%; background: var(--gold); animation: mapPulse 2.6s ease-out infinite; }
 .map-pin-label { position: absolute; left: 36px; top: 4px; white-space: nowrap; background: var(--navy); color: #fff; font-size: 13px; font-weight: 700; padding: 4px 12px; border-radius: 100px; box-shadow: 0 4px 12px rgba(11, 27, 58, 0.25); }
 .map-pin.is-active .map-pin-label { background: var(--gold); }
+.map-pin.label-left .map-pin-label { left: auto; right: 36px; }
 @keyframes pinDrop { from { opacity: 0; transform: translateY(-30px); } to { opacity: 1; transform: none; } }
 @keyframes mapPulse { from { transform: scale(0.4); opacity: 0.55; } to { transform: scale(2.6); opacity: 0; } }
 .towns { display: grid; gap: 16px; }
@@ -853,6 +854,10 @@ html.lang-switching main, html.lang-switching .footer { opacity: 0.25; }
   .statement-text { font-size: 1.32rem; }
   /* Pests photo panel a little shorter */
   .pests-visual { min-height: 430px; }
+
+  /* Map: smaller pin labels so the four towns don't overlap */
+  .map-pin-label { font-size: 11px; padding: 3px 8px; left: 30px; top: 6px; }
+  .map-pin.label-left .map-pin-label { right: 30px; }
 
 }
 @media (prefers-reduced-motion: reduce) {

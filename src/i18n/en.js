@@ -213,10 +213,10 @@ export default {
     mapLabel: 'Map of service areas: Velingrad, Sarnitsa, Dospat and Gotse Delchev',
   },
   towns: [
-    { id: 'velingrad', name: 'Velingrad', text: 'The town and the villages in the municipality – Draginovo, Sveta Petka, Krastava and more.', lat: 42.0276, lng: 23.9917 },
-    { id: 'sarnitsa', name: 'Sarnitsa', text: 'Sarnitsa and the nearby villages.', lat: 41.7372, lng: 24.0255 },
-    { id: 'dospat', name: 'Dospat', text: 'Dospat, the reservoir area, Barutin, Zmeitsa, Lyubcha and more.', lat: 41.6448, lng: 24.1594 },
-    { id: 'gotsedelchev', name: 'Gotse Delchev', text: 'Gotse Delchev and the villages in the municipality.', lat: 41.5675, lng: 23.7339 },
+    { id: 'velingrad', name: 'Velingrad', text: 'The town and the villages in the municipality – Draginovo, Sveta Petka, Krastava and more.', lat: 42.0277, lng: 23.9914 },
+    { id: 'sarnitsa', name: 'Sarnitsa', text: 'Sarnitsa and the nearby villages.', lat: 41.7384, lng: 24.0242 },
+    { id: 'dospat', name: 'Dospat', text: 'Dospat, the reservoir area, Barutin, Zmeitsa, Lyubcha and more.', lat: 41.6484, lng: 24.1593 },
+    { id: 'gotsedelchev', name: 'Gotse Delchev', text: 'Gotse Delchev and the villages in the municipality.', lat: 41.5733, lng: 23.7281 },
   ],
 
   about: {
