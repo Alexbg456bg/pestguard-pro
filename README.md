@@ -32,3 +32,11 @@ npm run build
 2. Копирайте `.env.example` като `.env` и попълнете `VITE_WEB3FORMS_KEY=...`
 3. Пуснете отново `npm run build`.
 Без ключ формата отваря имейл програмата на посетителя.
+
+## Къде е публикуван сайтът
+- **Vercel:** https://pestguard-pro-sigma.vercel.app
+- **GitHub Pages:** https://alexbg456bg.github.io/pestguard-pro/
+
+И двата адреса се обновяват сами след всяко качване в `main` (GitHub Pages – чрез `.github/workflows/pages.yml`).
+Някои мрежи и доставчици блокират адресите `*.vercel.app` – тогава работи адресът в GitHub Pages.
+Най-доброто решение е собствен домейн (напр. pestguardpro.bg), насочен към Vercel.
