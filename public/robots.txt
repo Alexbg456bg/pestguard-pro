@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://pestguard-pro-sigma.vercel.app/sitemap.xml
+Sitemap: https://alexbg456bg.github.io/pestguard-pro/sitemap.xml
