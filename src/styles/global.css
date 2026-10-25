@@ -346,6 +346,27 @@ html.menu-open .burger span { background: #fff; }
 .sector h3 { font-size: 1.3rem; margin-bottom: 8px; }
 .sector p { color: var(--muted-light); font-size: 0.98rem; }
 
+/* HACCP & pest control: included services + who it is for */
+.business-subtitle { font-family: var(--sans); font-size: 0.82rem; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: var(--gold-light); margin-bottom: 20px; }
+.incl-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; margin-bottom: 64px; }
+.incl-card {
+  display: flex; gap: 18px; align-items: flex-start; padding: 26px 24px; border-radius: var(--radius-lg);
+  background: rgba(255, 255, 255, 0.05); border: 1px solid var(--line-dark); transition: background 0.4s, border-color 0.4s;
+}
+.incl-card:hover { background: rgba(255, 255, 255, 0.09); border-color: rgba(221, 189, 114, 0.45); }
+.incl-icon { flex: none; display: grid; place-items: center; width: 50px; height: 50px; border-radius: 14px; border: 1px solid rgba(221, 189, 114, 0.45); color: var(--gold-light); }
+.incl-card h4 { font-size: 1.08rem; color: #fff; margin: 2px 0 6px; }
+.incl-card p { color: var(--muted-light); font-size: 0.93rem; line-height: 1.55; }
+.incl-card.is-highlight { background: var(--gold); border-color: var(--gold); }
+.incl-card.is-highlight .incl-icon { background: #fff; color: var(--gold-text); border-color: #fff; }
+.incl-card.is-highlight h4 { color: #fff; }
+.incl-card.is-highlight p { color: rgba(255, 255, 255, 0.92); }
+.for-row { display: grid; grid-template-columns: auto 1fr; gap: 24px; align-items: center; padding-top: 32px; border-top: 1px solid var(--line-dark); }
+.for-row .business-subtitle { margin: 0; }
+.for-list { list-style: none; display: flex; flex-wrap: wrap; gap: 10px; }
+.for-list li { display: inline-flex; align-items: center; gap: 8px; padding: 10px 16px; border-radius: 100px; border: 1px solid var(--line-dark); background: rgba(255, 255, 255, 0.04); font-size: 0.92rem; font-weight: 600; }
+.for-list li .icon { color: var(--gold-light); }
+
 /* ---------- Process (timeline) ---------- */
 .process { background: var(--cream); }
 .process-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 100px; align-items: start; }
@@ -596,6 +617,8 @@ html.lang-switching main, html.lang-switching .footer { opacity: 0.25; }
   .value:nth-child(n + 3) { border-top: 1px solid var(--line); }
   .sector-grid { grid-template-columns: 1fr 1fr; }
   .process-side, .faq-side { position: static; }
+  .incl-grid { grid-template-columns: 1fr 1fr; }
+  .for-row { grid-template-columns: 1fr; gap: 16px; }
   .trust-inner { grid-template-columns: 1fr; gap: 32px; }
   .pests-layout { grid-template-columns: 1fr; }
   .pests-visual { position: relative; top: 0; aspect-ratio: auto; min-height: 460px; }
@@ -858,6 +881,18 @@ html.lang-switching main, html.lang-switching .footer { opacity: 0.25; }
   /* Map: smaller pin labels so the four towns don't overlap */
   .map-pin-label { font-size: 11px; padding: 3px 8px; left: 30px; top: 6px; }
   .map-pin.label-left .map-pin-label { right: 30px; }
+
+  /* HACCP section: one compact column, chips wrap */
+  .business-head { margin-bottom: 40px; }
+  .incl-grid { grid-template-columns: 1fr; gap: 10px; margin-bottom: 40px; }
+  .incl-card { padding: 16px; gap: 14px; }
+  .incl-icon { width: 42px; height: 42px; border-radius: 12px; }
+  .incl-icon svg { width: 20px; height: 20px; }
+  .incl-card h4 { font-size: 1rem; }
+  .incl-card p { font-size: 0.88rem; }
+  .for-row { padding-top: 24px; }
+  .for-list { gap: 8px; }
+  .for-list li { padding: 8px 12px; font-size: 0.84rem; }
 
 }
 @media (prefers-reduced-motion: reduce) {

@@ -24,7 +24,14 @@ const paths = {
   building: <><rect x="4" y="2" width="16" height="20" rx="1" /><path d="M9 22v-4h6v4M8 6h.01M12 6h.01M16 6h.01M8 10h.01M12 10h.01M16 10h.01M8 14h.01M12 14h.01M16 14h.01" /></>,
   municipality: <><path d="M3 21h18M4 10h16M12 3l8.5 5h-17z" /><path d="M6 10v8M10 10v8M14 10v8M18 10v8M4 18h16" /></>,
   kinder: <><rect x="3" y="13" width="8" height="8" rx="1.5" /><rect x="13" y="13" width="8" height="8" rx="1.5" /><rect x="8" y="3" width="8" height="8" rx="1.5" /><path d="M7 15.5v3M15.5 17h3M12 5.5l1 2h-2z" /></>,
-  award:<><circle cx="12" cy="8" r="6" /><path d="M15.5 13 17 22l-5-3-5 3 1.5-9" /></>,
+  flask: <><path d="M9 3h6M10 3v6.5L4.6 18.4A1.7 1.7 0 0 0 6.1 21h11.8a1.7 1.7 0 0 0 1.5-2.6L14 9.5V3" /><path d="M7.5 15h9" /></>,
+  contract: <><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" /><path d="M14 2v6h6M8 13h8M8 17h4" /><path d="m14 18 1.5 1.5L19 16" /></>,
+  mapgrid: <><path d="M3 6l6-3 6 3 6-3v15l-6 3-6-3-6 3z" /><path d="M9 3v15M15 6v15" /><circle cx="6" cy="11" r="1" fill="currentColor" /><circle cx="12" cy="14" r="1" fill="currentColor" /><circle cx="18" cy="9" r="1" fill="currentColor" /></>,
+  layers: <><path d="m12 2 10 5-10 5L2 7z" /><path d="m2 12 10 5 10-5M2 17l10 5 10-5" /></>,
+  shop: <><path d="M3 9l1.5-5h15L21 9" /><path d="M3 9a3 3 0 0 0 6 0 3 3 0 0 0 6 0 3 3 0 0 0 6 0" /><path d="M5 12v9h14v-9M10 21v-5h4v5" /></>,
+  milk: <><path d="M8 2h8M9 2v3l-3 4v13h12V9l-3-4V2" /><path d="M6 13h12" /></>,
+  factory: <><path d="M2 21V10l6 3V10l6 3V6l8 3v12z" /><path d="M2 21h20M7 17h2M12 17h2M17 17h2" /></>,
+  award: <><circle cx="12" cy="8" r="6" /><path d="M15.5 13 17 22l-5-3-5 3 1.5-9" /></>,
   send: <path d="m22 2-7 20-4-9-9-4zM22 2 11 13" />,
 };
 
