@@ -179,7 +179,6 @@ export default {
   },
   included: [
     { icon: 'doc', title: 'HACCP documentation', text: 'Preparing, implementing and updating HACCP systems and self-monitoring programmes.' },
-    { icon: 'flask', title: 'Laboratory testing', text: 'We organise and take samples of raw materials, finished products, contact surfaces and water.' },
     { icon: 'contract', title: 'Pest control contract and file', text: 'All required protocols and documents under Ordinance No. 1 of 2018.' },
     { icon: 'mapgrid', title: 'Control point map', text: 'A plan showing where the bait stations and traps are placed on your premises.' },
     { icon: 'shield', title: 'Pest management (IPM)', text: 'Regular monitoring, prevention and certified biocides that are safe for food premises.' },
