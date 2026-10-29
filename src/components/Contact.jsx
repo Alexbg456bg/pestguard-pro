@@ -20,8 +20,32 @@ export default function Contact() {
     // The e-mail to the company is always labelled in Bulgarian; the subject says if it came from the English site
     const subject = `${c.mailSubject} – ${data.town}`;
 
-    // Without a Web3Forms key, fall back to the visitor's e-mail program
+    setStatus('sending');
+
+    // 1) On the JumpBG hosting: send.php mails the request straight to the company Webmail.
+    //    On hosts without PHP (e.g. GitHub Pages) it does not answer with JSON, so we fall through.
+    try {
+      const fd = new FormData(form);
+      fd.append('lang', document.documentElement.lang || 'bg');
+      const res = await fetch('send.php', { method: 'POST', body: fd, headers: { Accept: 'application/json' } });
+      const json = await res.json();
+      if (json.ok) {
+        setStatus('sent');
+        form.reset();
+        return;
+      }
+      if (res.status !== 404) throw new Error(json.error || 'send failed');
+    } catch (err) {
+      // Not JSON → no PHP on this host; any real PHP error is shown as an error below
+      if (!(err instanceof SyntaxError)) {
+        setStatus('error');
+        return;
+      }
+    }
+
+    // 2) Without a Web3Forms key, fall back to the visitor's e-mail program
     if (!WEB3FORMS_KEY) {
+      setStatus('idle');
       const body = `Име: ${data.name}\nТелефон: ${data.phone}\nНаселено място: ${data.town}\n\n${data.message}`;
       window.location.href = `mailto:${company.email}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
       return;
