@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useRef, useState } from 'react';
 import { motion } from 'motion/react';
 import Reveal, { MaskLines } from './Reveal.jsx';
 import Icon from './Icon.jsx';
@@ -11,6 +11,9 @@ export default function Contact() {
   const { t } = useLang();
   const c = t.contact;
   const [status, setStatus] = useState('idle'); // idle | sending | sent | error
+  // When the visitor first touched the form – send.php drops forms filled in too fast (bots)
+  const startedAt = useRef(0);
+  const markStart = () => { if (!startedAt.current) startedAt.current = Date.now(); };
 
   async function onSubmit(e) {
     e.preventDefault();
@@ -27,11 +30,13 @@ export default function Contact() {
     try {
       const fd = new FormData(form);
       fd.append('lang', document.documentElement.lang || 'bg');
+      fd.append('elapsed', String(startedAt.current ? Date.now() - startedAt.current : 0));
       const res = await fetch('send.php', { method: 'POST', body: fd, headers: { Accept: 'application/json' } });
       const json = await res.json();
       if (json.ok) {
         setStatus('sent');
         form.reset();
+        startedAt.current = 0;
         return;
       }
       if (res.status !== 404) throw new Error(json.error || 'send failed');
@@ -130,7 +135,7 @@ export default function Contact() {
                 <button className="btn btn-dark" onClick={() => setStatus('idle')}>{c.newRequest}</button>
               </motion.div>
             ) : (
-              <motion.form key="form" onSubmit={onSubmit} initial={{ opacity: 0 }} animate={{ opacity: 1 }}>
+              <motion.form key="form" onSubmit={onSubmit} onFocus={markStart} initial={{ opacity: 0 }} animate={{ opacity: 1 }}>
                 <h3>{c.formTitle}</h3>
                 <p className="form-sub">{c.formSub}</p>
                 <input type="checkbox" name="botcheck" className="hidden" tabIndex={-1} autoComplete="off" />

@@ -11,6 +11,13 @@
 const TO_EMAIL = '';
 // Max requests per visitor IP per hour (simple spam protection)
 const RATE_LIMIT = 5;
+// Max requests for the whole site – protects the mailbox and the hosting's sending limit
+const SITE_LIMIT_HOUR = 20;
+const SITE_LIMIT_DAY = 60;
+// A person needs at least this long to fill in the form; faster means a bot
+const MIN_FILL_MS = 3000;
+// More links than this in the message is treated as spam
+const MAX_LINKS = 2;
 
 header('Content-Type: application/json; charset=utf-8');
 header('X-Content-Type-Options: nosniff');
@@ -45,18 +52,37 @@ if ($name === '' || $phone === '' || !preg_match('/[0-9]{6,}/', preg_replace('/\
     reply(false, 'invalid', 422);
 }
 
-// Rate limit per IP (stored in the system temp folder)
-$ipKey = sys_get_temp_dir() . '/pg_form_' . hash('sha256', $_SERVER['REMOTE_ADDR'] ?? 'x');
-$now = time();
-$hits = [];
-if (is_file($ipKey)) {
-    $hits = array_filter(explode(',', (string) @file_get_contents($ipKey)), fn ($t) => $t !== '' && $now - (int) $t < 3600);
+// Bots post without running the page script or fill the form instantly – drop silently
+$elapsed = (int) ($_POST['elapsed'] ?? 0);
+if ($elapsed < MIN_FILL_MS) {
+    reply(true);
 }
-if (count($hits) >= RATE_LIMIT) {
+// Typical spam is full of links
+if (preg_match_all('~(https?://|www\.)~i', $message . ' ' . $name) > MAX_LINKS) {
+    reply(true);
+}
+
+// Timestamps of earlier requests, stored in the system temp folder
+function recent_hits(string $file, int $window): array {
+    $now = time();
+    $raw = is_file($file) ? (string) @file_get_contents($file) : '';
+    return array_values(array_filter(explode(',', $raw), fn ($t) => $t !== '' && $now - (int) $t < $window));
+}
+
+$tmp = sys_get_temp_dir();
+$ipKey = $tmp . '/pg_form_' . hash('sha256', $_SERVER['REMOTE_ADDR'] ?? 'x');
+$siteKey = $tmp . '/pg_form_site_' . hash('sha256', __DIR__);
+
+$ipHits = recent_hits($ipKey, 3600);
+$siteHits = recent_hits($siteKey, 86400);
+$siteHour = array_filter($siteHits, fn ($t) => time() - (int) $t < 3600);
+if (count($ipHits) >= RATE_LIMIT || count($siteHour) >= SITE_LIMIT_HOUR || count($siteHits) >= SITE_LIMIT_DAY) {
     reply(false, 'too_many', 429);
 }
-$hits[] = $now;
-@file_put_contents($ipKey, implode(',', $hits), LOCK_EX);
+$ipHits[] = time();
+$siteHits[] = time();
+@file_put_contents($ipKey, implode(',', $ipHits), LOCK_EX);
+@file_put_contents($siteKey, implode(',', $siteHits), LOCK_EX);
 
 // Recipient and sender use the site's own domain, so the mail passes SPF/DKIM checks
 $domain = strtolower(preg_replace('/^www\./', '', explode(':', $_SERVER['HTTP_HOST'] ?? '')[0]));
