@@ -34,9 +34,5 @@ npm run build
 Без ключ формата отваря имейл програмата на посетителя.
 
 ## Къде е публикуван сайтът
-- **Vercel:** https://pestguard-pro-sigma.vercel.app
-- **GitHub Pages:** https://alexbg456bg.github.io/pestguard-pro/
-
-И двата адреса се обновяват сами след всяко качване в `main` (GitHub Pages – чрез `.github/workflows/pages.yml`).
-Някои мрежи и доставчици блокират адресите `*.vercel.app` – тогава работи адресът в GitHub Pages.
-Най-доброто решение е собствен домейн (напр. pestguardpro.bg), насочен към Vercel.
+- **Основен адрес (JumpBG):** https://pestguardpro1.com – качва се ръчно: `npm run build`, после съдържанието на `dist/` в `public_html` (cPanel → File Manager). Формата праща запитванията през `send.php` до `info@pestguardpro1.com` (Webmail).
+- **GitHub Pages (резервен):** https://alexbg456bg.github.io/pestguard-pro/ – обновява се сам след всяко качване в `main` (`.github/workflows/pages.yml`). Там няма PHP, затова формата отваря имейл програмата.

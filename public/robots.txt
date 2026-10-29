@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://alexbg456bg.github.io/pestguard-pro/sitemap.xml
+Sitemap: https://pestguardpro1.com/sitemap.xml
