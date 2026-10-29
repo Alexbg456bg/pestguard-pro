@@ -1,4 +1,4 @@
-import { useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { motion } from 'motion/react';
 import Reveal, { MaskLines } from './Reveal.jsx';
 import Icon from './Icon.jsx';
@@ -6,11 +6,28 @@ import { company } from '../data/content.js';
 import { rich, useLang } from '../i18n/index.jsx';
 
 const WEB3FORMS_KEY = import.meta.env.VITE_WEB3FORMS_KEY;
+// After a request is sent the form stays locked this long (send.php enforces the same per IP)
+const COOLDOWN_MS = 10 * 60 * 1000;
+const SENT_KEY = 'pg-sent-at';
+
+function readSentAt() {
+  try { return Number(localStorage.getItem(SENT_KEY)) || 0; } catch { return 0; }
+}
 
 export default function Contact() {
   const { t } = useLang();
   const c = t.contact;
-  const [status, setStatus] = useState('idle'); // idle | sending | sent | error
+  const [sentAt, setSentAt] = useState(readSentAt);
+  const [now, setNow] = useState(() => Date.now());
+  const waitLeft = sentAt + COOLDOWN_MS - now;
+  const [status, setStatus] = useState(() => (waitLeft > 0 ? 'sent' : 'idle')); // idle | sending | sent | error | limited
+
+  // Count the lock down while the thank-you message is shown
+  useEffect(() => {
+    if (status !== 'sent' || waitLeft <= 0) return undefined;
+    const id = setInterval(() => setNow(Date.now()), 15000);
+    return () => clearInterval(id);
+  }, [status, waitLeft]);
   // When the visitor first touched the form – send.php drops forms filled in too fast (bots)
   const startedAt = useRef(0);
   const markStart = () => { if (!startedAt.current) startedAt.current = Date.now(); };
@@ -32,8 +49,16 @@ export default function Contact() {
       fd.append('lang', document.documentElement.lang || 'bg');
       fd.append('elapsed', String(startedAt.current ? Date.now() - startedAt.current : 0));
       const res = await fetch('send.php', { method: 'POST', body: fd, headers: { Accept: 'application/json' } });
+      if (res.status === 429) {
+        setStatus('limited');
+        return;
+      }
       const json = await res.json();
       if (json.ok) {
+        const ts = Date.now();
+        try { localStorage.setItem(SENT_KEY, String(ts)); } catch { /* private mode */ }
+        setSentAt(ts);
+        setNow(ts);
         setStatus('sent');
         form.reset();
         startedAt.current = 0;
@@ -132,7 +157,14 @@ export default function Contact() {
                 <span className="sent-icon"><Icon name="check" size={30} /></span>
                 <h3>{c.sentTitle}</h3>
                 <p>{c.sentText}</p>
-                <button className="btn btn-dark" onClick={() => setStatus('idle')}>{c.newRequest}</button>
+                {waitLeft > 0 ? (
+                  <p className="form-wait">
+                    {c.waitText.replace('{min}', Math.ceil(waitLeft / 60000))}{' '}
+                    <a href={company.phoneHref}>{t.phone}</a>.
+                  </p>
+                ) : (
+                  <button className="btn btn-dark" onClick={() => setStatus('idle')}>{c.newRequest}</button>
+                )}
               </motion.div>
             ) : (
               <motion.form key="form" onSubmit={onSubmit} onFocus={markStart} initial={{ opacity: 0 }} animate={{ opacity: 1 }}>
@@ -166,6 +198,9 @@ export default function Contact() {
                 <p className="form-note">
                   {c.privacy}
                 </p>
+                {status === 'limited' && (
+                  <p className="form-error">{c.tooMany} <a href={company.phoneHref}>{t.phone}</a>.</p>
+                )}
                 {status === 'error' && (
                   <p className="form-error">{c.error} {t.phone}.</p>
                 )}

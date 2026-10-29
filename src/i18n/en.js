@@ -263,6 +263,8 @@ export default {
     sentTitle: 'Thank you!',
     sentText: 'Your request has been sent. We will get back to you as soon as possible.',
     newRequest: 'New request',
+    waitText: 'You can send another request in {min} min. If it is urgent, please call',
+    tooMany: 'We have already received a request from you and will call you back. If it is urgent, please call',
     formTitle: 'Send a request',
     formSub: 'Fill in the form and we will call you back.',
     name: 'Name',

@@ -9,8 +9,9 @@
 
 // Mailbox that receives the requests. Leave empty to use info@<the site's domain>.
 const TO_EMAIL = '';
-// Max requests per visitor IP per hour (simple spam protection)
-const RATE_LIMIT = 5;
+// Per visitor IP: minimum seconds between two requests and max requests per day
+const IP_COOLDOWN = 600;
+const IP_LIMIT_DAY = 3;
 // Max requests for the whole site – protects the mailbox and the hosting's sending limit
 const SITE_LIMIT_HOUR = 20;
 const SITE_LIMIT_DAY = 60;
@@ -73,10 +74,12 @@ $tmp = sys_get_temp_dir();
 $ipKey = $tmp . '/pg_form_' . hash('sha256', $_SERVER['REMOTE_ADDR'] ?? 'x');
 $siteKey = $tmp . '/pg_form_site_' . hash('sha256', __DIR__);
 
-$ipHits = recent_hits($ipKey, 3600);
+$ipHits = recent_hits($ipKey, 86400);
+$ipLast = $ipHits ? max(array_map('intval', $ipHits)) : 0;
 $siteHits = recent_hits($siteKey, 86400);
 $siteHour = array_filter($siteHits, fn ($t) => time() - (int) $t < 3600);
-if (count($ipHits) >= RATE_LIMIT || count($siteHour) >= SITE_LIMIT_HOUR || count($siteHits) >= SITE_LIMIT_DAY) {
+if (time() - $ipLast < IP_COOLDOWN || count($ipHits) >= IP_LIMIT_DAY
+    || count($siteHour) >= SITE_LIMIT_HOUR || count($siteHits) >= SITE_LIMIT_DAY) {
     reply(false, 'too_many', 429);
 }
 $ipHits[] = time();
